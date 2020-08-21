@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_salesforecast,access.salesforecast,forecast.model_forecast_salesforecast,,1,1,1,1
+access_salesforecast_products,access.salesforecast.products,forecast.model_forecast_salesforecastproducts,,1,1,1,1
+access_salesforecast_items,access.salesforecast.items,forecast.model_forecast_salesforecastproductsitems,,1,1,1,1
+access_salesforecast_itemsgrouped,access.salesforecast.itemsgrouped,forecast.model_forecast_salesforecastitemsgrouped,,1,1,1,1
+access_mrp_packaging,access.mrp.packaging,forecast.model_mrp_packaging,,1,1,1,1

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Manufacturing Order -->
+        <record id="forecast_salesforecast_tree_view" model="ir.ui.view">
+            <field name="name">forecast.salesforecast.tree</field>
+            <field name="model">forecast.salesforecast</field>
+            <field name="arch" type="xml">
+                <tree string="Salesforecast list" multi_edit="1">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="salesforecast_name" string="Sales Forecast"/>
+                     <field name="user_id" optional="show" string="Prepared By"/>
+                    <field name="date_planned_start" optional="show"/>
+                    <field name="date_planned_finished" optional="show"/>
+                </tree>
+            </field>
+        </record>
+ <record id="view_product_template_inherit_form_view" model="ir.ui.view">
+        <field name="name">product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="inventory_update.product_template_updates_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string = "Packaging List">
+                    <group>
+                        <field name="productPackagingID" string="">
+                                <tree  editable="bottom">
+                                    <field name="product_id"/>
+                                </tree>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+
+
+        <record id="forecast_salesforecast_form_view" model="ir.ui.view">
+            <field name="name">forecast.salesforecast.form</field>
+            <field name="model">forecast.salesforecast</field>
+            <field name="arch" type="xml">
+                <form string="Sales Forecast form.">
+                        <header>
+                        <button name="list_consumption" string="Generate Bill of Material" type="object" groups="base.group_user"/>
+                        </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Sales Forecast Reference" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="salesforecast_name"/>
+                        </group>
+                        <group>
+
+                            <field name="date_planned_start" string="Forecast starting Date"/>
+                            <field name="date_planned_finished" string="Forecast ending Date"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Forecasted Products">
+                            <field name="salesforecast_product" >
+                                 <tree  editable="bottom" limit="500">
+                                    <field name="product_id"/>
+                                    <field name="packaging_id" />
+                                    <field name="bom_id" invisible="1"/>
+                                    <field name="product_qty" string="Quantity" sum="Grand Total"/>
+                                    <field name="product_batch_qty" invisible="1"/>
+                                    <field name="product_batch_size" string="Batch size"  sum="Grand Total"/>
+                                    <field name="product_unit_price" string="Unit Price"/>
+                                    <field name="product_total" string="Total"  sum="Grand Total"/>
+
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Material Requirements">
+                                 <field name="salesforecast_items" >
+                                    <tree  editable="bottom" limit="500">
+                                        <field name="product_id"/>
+                                        <field name="item_id"/>
+                                        <field name="item_qty" string="Required Qty"/>
+                                        <field name="item_available"  string="Available Qty"/>
+                                        <field name="item_required"  string="Shortage"/>
+                                        <field name="item_unit_price" string="Unit Price"/>
+                                        <field name="item_total" string="Total"  sum="Grand Total"/>
+                                     </tree>
+                                 </field>
+                        </page>
+
+                        <page string="Material Requirements Summary ">
+                                 <field name="salesforecast_items_grouped" >
+                                    <tree  editable="bottom" limit="500">
+                                        <field name="item_id"/>
+                                        <field name="item_qty" string="Required Qty"/>
+                                        <field name="item_available" string="Available Qty"/>
+                                        <field name="item_required" string="Shortage"/>
+                                        <field name="item_unit_price" string="Unit Price"/>
+                                        <field name="item_total" string="Total"  sum="Grand Total"/>
+                                     </tree>
+                                 </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="forecast_salesforecast_action" model="ir.actions.act_window">
+            <field name="name">Sales Forecast </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">forecast.salesforecast</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new sales forecast <br/>
+              </p><p>
+                This form helps manage sales forecast and show ingredients required to manufacture the products.
+              </p>
+            </field>
+        </record>
+
+        <record id="forecast_salesforecast_action_picking_deshboard" model="ir.actions.act_window">
+            <field name="name">Sales Forecast</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">forecast.salesforecast</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+        </record>
+
+        <record id="product_packaging_update_form_view" model="ir.ui.view">
+            <field name="name">mrp.packaging.form</field>
+            <field name="model">mrp.packaging</field>
+            <field name="arch" type="xml">
+                <form string="Packaging Instructions">
+
+                <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="product_packaging_id"/>
+                            <field name="qtyOnBlister"/>
+                            <field name="qtyOnPackage"/>
+                        </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_packaging_update_action" model="ir.actions.act_window">
+            <field name="name">Packaging Instructions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.packaging</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Packaging Instructions <br/>
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+        <menuitem name="Sales Forecast"
+            id="menu_forecast"
+            sequence="80"/>
+
+        <menuitem action="forecast_salesforecast_action"
+            id="menu_forecast_salesforecast_action"
+            parent="menu_forecast"
+            name="Sales Forecast"
+            sequence="1"/>
+
+        <menuitem action="product_packaging_update_action"
+            id="menu_product_packaging_update"
+            parent="menu_forecast"
+            name="Packaging Instructions"
+            sequence="3"/>
+
+         <menuitem id="menu_mrp_bom_form_actionn"
+            action="mrp.mrp_bom_form_action"
+            parent="menu_forecast"
+            sequence="2"/>
+
+        <record id="pack_product_template_action_product" model="ir.actions.act_window">
+                <field name="name">Packaging</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">product.template</field>
+                <field name="view_mode">kanban,tree,form</field>
+                <field name="context">{'default_is_packaging': True,'default_sale_ok': False}</field>
+                <field name="domain">[('is_packaging','=','True')]</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Create a new Packaging
+                    </p>
+                </field>
+        </record>
+
+            <menuitem id="menu_product_packaging_config_stock" name="Packaging" action="pack_product_template_action_product"
+        parent="menu_forecast" sequence="1"/>
+    </data>
+</odoo>
+

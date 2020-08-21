@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_salesforecast">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-7">
+                            <h2><span t-field="o.salesforecast_name"/></h2>
+                        </div>
+
+                    </div>
+                    <div class="row mt32 mb32">
+                    <div class="col-3">
+                            <strong>Responsible:</strong><br/>
+                            <span t-field="o.user_id"/>
+                    </div>
+                    </div>
+
+                    <div class="row mt32 mb32">
+                        <div class="col-3">
+                            <strong>Forecasted From :</strong><br/>
+                            <span t-field="o.date_planned_start"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Forecasted To:</strong><br/>
+                            <span t-field="o.date_planned_finished"/>
+                        </div>
+                    </div>
+
+
+                    <h3 t-if="o.salesforecast_product">
+                        <t>
+                            Sales Forecast Ingredients Summary
+                        </t>
+                    </h3>
+
+                    <table class="table table-sm" t-if="o.salesforecast_items_grouped">
+                        <thead>
+                            <tr>
+                                <th>Item ID</th>
+                                <th>Req. Quantity</th>
+                                <th>Available</th>
+                                <th>Difference</th>
+                                <th>Unit price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="o.salesforecast_items_grouped">
+                                <t t-set="totall" t-value="0.0"/>
+                                <tr t-foreach="o.salesforecast_items_grouped" t-as="raw_line">
+                                    <td>
+                                        <span t-field="raw_line.item_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.item_qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.item_available"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.item_required"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.item_unit_price"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.item_total" t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+                                    <t t-set="totall" t-value="totall + raw_line.item_total"/>
+                                </tr>
+                                <tr>
+                                       <td class="text-right"> <span></span> </td>
+                                       <td class="text-right"> <span></span> </td>
+                                       <td class="text-right"> <span></span> </td>
+                                       <td class="text-right"> <span></span> </td>
+                                       <td class="text-right"> <span>Grand Total</span> </td>
+                                       <td class="text-right"> <span t-esc="totall" t-options='{"widget": "float", "precision": 2}'></span> </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+<template id="report_salesforecast_products">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-7">
+                            <h2><span t-field="o.salesforecast_name"/></h2>
+                        </div>
+
+                    </div>
+                    <div class="row mt32 mb32">
+                    <div class="col-3">
+                            <strong>Responsible:</strong><br/>
+                            <span t-field="o.user_id"/>
+                    </div>
+                    </div>
+
+                    <div class="row mt32 mb32">
+                        <div class="col-3">
+                            <strong>Forecasted From :</strong><br/>
+                            <span t-field="o.date_planned_start"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Forecasted To:</strong><br/>
+                            <span t-field="o.date_planned_finished"/>
+                        </div>
+                    </div>
+      
+
+                    <table class="table table-sm" t-if="o.salesforecast_product">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Unit Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="o.salesforecast_product">
+                                <t t-set="qty" t-value="0.0"/>
+                                <t t-set="total" t-value="0.0"/>
+                                <tr t-foreach="o.salesforecast_product" t-as="raw_line">
+                                    <td>
+                                        <span t-field="raw_line.product_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.product_unit_price"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="raw_line.product_qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="raw_line.product_total"></span>
+                                    </td>
+                                    <t t-set="qty" t-value="qty + raw_line.product_qty"/>
+                                    <t t-set="total" t-value="total + raw_line.product_total"/>
+                                </tr>
+                                <tr>
+                                       <td class="text-right"> <span></span> </td>
+                                       <td class="text-right"> <span></span> </td>
+                                       <td class="text-right"> <span t-esc="qty" t-options='{"widget": "float", "precision": 2}'></span> </td>
+                                       <td class="text-right"> <span t-esc="total" t-options='{"widget": "float", "precision": 2}'></span> </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>
