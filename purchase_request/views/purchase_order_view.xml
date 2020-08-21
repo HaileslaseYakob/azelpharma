@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+
+                <field name="partner_ref" position="after">
+                    <field name="proformaDate" />
+                </field>
+                <field name="currency_id" position="after">
+                    <field name="purchase_source_type" />
+                </field>
+                <field name="date_order" position="after">
+
+
+                        <field name="deliveryplace" />
+                        <field name="shippingby" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                        <field name="packing" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                        <field name="portofloading" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                        <field name="portofdestination" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                        <field name="declaration_no" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                       <field name="lc_cad_tt_no" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                </field>
+            <xpath expr="//field[@name='order_line']/tree" position="inside">
+                <field name="purchase_request_lines" invisible="1" />
+                <button
+                    string="Purchase Request lines"
+                    attrs="{'invisible': [('purchase_request_lines', '=', [])]}"
+                    name="action_openRequestLineTreeView"
+                    type="object"
+                    icon="fa-folder-open-o"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="purchase_order_line_form2" model="ir.ui.view">
+        <field name="name">purchase.order.line.form2</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_form2" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <separator string="Purchase Request Lines" />
+                <field name="purchase_request_lines" />
+            </field>
+        </field>
+    </record>
+    <record id="purchase_order_line_tree" model="ir.ui.view">
+        <field name="name">purchase.order.line.tree</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="purchase_request_lines" invisible="1" />
+                <button
+                    string="Purchase Request lines"
+                    attrs="{'invisible': [('purchase_request_lines', '=', [])]}"
+                    name="action_openRequestLineTreeView"
+                    type="object"
+                    icon="fa-folder-open-o"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

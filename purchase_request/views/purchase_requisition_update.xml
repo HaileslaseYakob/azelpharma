@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+  <record id="product_template_updates_form_view_inherit" model="ir.ui.view">
+        <field name="name">purchase.agreement.inherit.form</field>
+        <field name="model">purchase.agreement</field>
+        <field name="inherit_id" ref="sh_po_tender_management.sh_purchase_agreement_form_view"/>
+        <field name="arch" type="xml">
+        <field name="sh_agreement_deadline" position="after">
+                <field name="purchase_source_type"/>
+                <field name="deliveryplace"/>
+                <field name="shippingby" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+        </field>
+        <field name="purchase_request_id" position="after">
+                <field name="packing" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                <field name="portofloading" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+                <field name="portofdestination" attrs="{'invisible': [('purchase_source_type', 'not in', ['foreign'])]}"/>
+        </field>
+
+     </field>
+    </record>
+
+        <record id="cheque_payment_tree_view" model="ir.ui.view">
+            <field name="name">purchase.chequepayment.tree</field>
+            <field name="model">purchase.chequepayment</field>
+            <field name="arch" type="xml">
+                <tree string="Cheque payment requests" multi_edit="1">
+                    <field name="vendor_id" optional="show"/>
+                    <field name="name" optional="show"/>
+                    <field name="amount" optional="show"/>
+                    <field name="date_requested" optional="show"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cheque_payment_form_view" model="ir.ui.view">
+            <field name="name">purchase.chequepayment.form</field>
+            <field name="model">purchase.chequepayment</field>
+            <field name="arch" type="xml">
+                <form string="Cheque Payment form.">
+                        <header>
+                        <button string="Approve" name="button_approve" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Verify" name="button_verify" states="approve" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Reject" name="button_reject" states="draft,approve" type="object" class="oe_highlight" groups="base.group_user"/>
+                          <field name="state" widget="statusbar" statusbar_visible="draft,approve,verify"/>
+                        </header>
+                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Payment reason" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="vendor_id" />
+                            <field name="amount" />
+                            <field name="remark"/>
+                        </group>
+
+                         <group>
+                            <field name="requested_id" />
+                            <field name="date_requested"/>
+                            <field name="verified_id"/>
+                            <field name="date_approved"/>
+                        </group>
+
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="cheque_payment_action" model="ir.actions.act_window">
+            <field name="name">Cheque Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.chequepayment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Cheque Payment <br/>
+              </p><p>
+                This form helps manage  Cheque Payment.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="cheque_payment_action"
+            id="menu_cheque_payment_update_action"
+            web_icon="purchase_request,static/description/cheque.jpg"
+            name="Cheque payment request"
+            sequence="1"/>      
+        
+        
+    </data>
+</odoo>
