@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_category_form2" model="ir.ui.view">
+             <field name="name">document.type.form</field>
+             <field name="model">document.type</field>
+             <field name="arch" type="xml">
+                 <form string="Purchase Tags">
+                     <sheet>
+                         <group>
+                             <field name="name"/>
+                         </group>
+                     </sheet>
+                 </form>
+             </field>
+         </record>
+
+    <record model='ir.ui.view' id='purchase_document_tree_view'>
+        <field name="name">document.type.tree</field>
+        <field name="model">document.type</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="purchase_document_type_action" model="ir.actions.act_window">
+        <field name="name">Purchase Document Types</field>
+        <field name="res_model">document.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="document_types_menuitem"
+              name="Purchase Document Types"
+              parent="purchase.menu_purchase_config"
+              sequence="6"
+              action="purchase_documents.purchase_document_type_action"
+              />
+</odoo>

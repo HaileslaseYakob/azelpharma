@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+"access_purchase_document","purchase.document","model_purchase_document",,1,1,1,1
+"access_purchase_order_document","purchase.order.document","model_purchase_order_document",,1,1,1,1
+"access_purchase_document_type","hr.employee.document_type","model_document_type",,1,1,1,1
+
+

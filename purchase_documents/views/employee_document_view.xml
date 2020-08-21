@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="hr_employee_document_inherit_form_view">
+        <field name="name">purchase.order.form.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol">
+                    <field string="Documents" name="document_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <record model='ir.ui.view' id='purchase_document_form_view'>
+        <field name="name">purchase.order.document.form</field>
+        <field name="model">purchase.order.document</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="purchase_ref" string="Purchase"/>
+                            <field name="document_type"/>
+                            <field name="purchase_attachment_id" widget="many2many_binary" class="oe_inline"/>
+                        </group>
+                        <group>
+                       </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model='ir.ui.view' id='purchase_documents_tree_view'>
+        <field name="name">purchase.order.document.tree</field>
+        <field name="model">purchase.order.document</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="purchase_ref" string="Purchase"/>
+                <field name="document_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="search_purchase_documents" model="ir.ui.view">
+            <field name="name">purchase.order.document.search</field>
+            <field name="model">purchase.order.document</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Documents">
+                    <group expand="0" string="Group By">
+                        <filter name="Purchase" string="Purchase" domain="[]" context="{'group_by':'purchase_ref'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <record id="purchase_order_document_action" model="ir.actions.act_window">
+        <field name="name">Purchase Documents</field>
+        <field name="res_model">purchase.order.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="purchase_documents_tree_view"/>
+        <field name="context">{'search_default_Purchase': 1}</field>
+    </record>
+
+    <menuitem id="purchase_document_menuitem"
+              name="Documents"
+              parent="purchase.menu_purchase_config"
+              action="purchase_documents.purchase_order_document_action"/>
+</odoo>
