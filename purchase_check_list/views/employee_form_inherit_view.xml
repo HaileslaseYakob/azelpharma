@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="purchase_order_inherit_form_view">
+        <field name="name">purchase.order.form.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <div>
+                    <field name="entry_progress" widget="percentpie" string="Documents received"/>
+                </div>
+            </field>
+            <page name="purchase_delivery_invoice" position="after">
+                <page name="checklist" string="Checklist">
+                    <group>
+                        <group name="entry_checklist" string="Entry Checklist">
+                            <field name="entry_checklist" widget="many2many_checkboxes"/>
+                            <field name="check_list_enable" invisible="1"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+ </odoo>
