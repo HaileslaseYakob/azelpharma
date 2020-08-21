@@ -32,7 +32,6 @@
     'depends': ['base', 'purchase_documents', 'mail', 'hr'],
     'data': [
         'security/ir.model.access.csv',
-        'data/data.xml',
         'views/employee_form_inherit_view.xml',
         'views/checklist_view.xml',
         'views/employee_check_list_view.xml',
