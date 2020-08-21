@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="product_template_updates_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+        <field name="barcode" position="before">
+            <field name="is_packaging"/>
+                <field name="classification_id"/>
+                <field name="sub_classification_id"/>
+                <field name="dosage_form" attrs="{'invisible':[(('sale_ok', '!=', True))]}"/>
+                <field name="production_line" attrs="{'invisible':[(('sale_ok', '!=', True))]}"/>
+                <field name="generic_name"/>
+                <field name="spec_doc_no"/>
+                <field name="shelf_life"/>
+                <field name="store_type_id"/>
+                <field name="min_available" string="Min Qty"/>
+                <field name="reordering_min_qty" string="Reorder Qty"/>
+                <field name="reordering_max_qty" string="Max Qty"/>
+                <field name="is_packaging" invisible="1"/>
+        </field>
+
+     </field>
+    </record>
+
+    <record id="view_product_update_tree_inherit" model="ir.ui.view">
+        <field name="name">product.template.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="classification_id"/>
+                <field name="sub_classification_id"/>
+                <field name="dosage_form"/>
+                <field name="shelf_life"/>
+                <field name="generic_name"/>
+                <field name="generic_name"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_available']" position="before">
+                <field name="store_type_id"/>
+                <field name="min_available" string="Min Qty"/>
+                <field name="reordering_min_qty" string="Reorder Qty"/>
+                <field name="reordering_max_qty" string="Max Qty"/>
+            </xpath>
+        </field>
+     </record>
+
+     <record id="custom_product_template_action_product" model="ir.actions.act_window">
+        <field name="name">Inventory Items</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'default_is_packaging': False,'default_sale_ok': False}</field>
+        <field name="domain">[('sale_ok','!=',True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Inventory Items
+            </p>
+        </field>
+    </record>
+
+            <menuitem id="menu_product_variant_config_stock" name="Inventory Items" action="custom_product_template_action_product"
+        parent="stock.menu_stock_inventory_control" sequence="1"/>
+
+
+             <record id="packaging_product_template_action_product" model="ir.actions.act_window">
+        <field name="name">Packaging</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'default_is_packaging': True,'default_sale_ok': False}</field>
+        <field name="domain">[('is_packaging','=','True')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Packaging
+            </p>
+        </field>
+    </record>
+
+            <menuitem id="menu_product_packaging_config_stock" name="Packaging" action="packaging_product_template_action_product"
+        parent="stock.menu_stock_inventory_control" sequence="1"/>
+
+
+    </data>
+</odoo>

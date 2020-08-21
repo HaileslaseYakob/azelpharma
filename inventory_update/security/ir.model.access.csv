@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_product_productionline,access_access_product_productionline,inventory_update.model_product_productionline,base.group_user,1,1,1,1
+access_product_storetype,access_access_product_storetype,inventory_update.model_product_storetype,base.group_user,1,1,1,1
+access_product_classification,access_access_product_classification,inventory_update.model_product_classification,base.group_user,1,1,1,1
+access_product_subclassification,access_access_product_subclassification,inventory_update.model_product_subclassification,base.group_user,1,1,1,1
+access_product_dosageform,access.product.dosageform,inventory_update.model_product_dosageform,,1,1,1,1
