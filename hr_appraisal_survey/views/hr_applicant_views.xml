@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_case_tree_view_job_inherit" model="ir.ui.view">
+        <field name="name">hr.appraisal.tree.inherit</field>
+        <field name="model">hr.appraisal</field>
+        <field name="inherit_id" ref="hr_appraisal.view_hr_appraisal_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_close']" position="after">
+                <field name="probation_appraisal"/>
+                <field name="survey_id" invisible="1"/>
+                <field name="response_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_appraisal_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.appraisal.form.inherit</field>
+        <field name="model">hr.appraisal</field>
+        <field name="inherit_id" ref="hr_appraisal.view_hr_appraisal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_calendar_event']" position="after">
+                <button name="action_start_survey"
+                    class="oe_stat_button"
+                    icon="fa-user"
+                    type="object"
+                    help="Answer related job question"
+                    context="{'survey_id': survey_id}"
+                    attrs="{'invisible':[('survey_id','=',False)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Start</span>
+                        <span class="o_stat_text">Appraisal</span>
+                    </div>
+                </button>
+                <button name="action_print_survey"
+                    class="oe_stat_button"
+                    icon="fa-print"
+                    type="object"
+                    help="Print appraisal report"
+                    attrs="{'invisible':[('survey_id','=',False)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Print</span>
+                        <span class="o_stat_text">Appraisal</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="before">
+                <field name="survey_id" invisible="1"/>
+                <field name="probation_appraisal"/>
+                <field name="response_id" readonly="True"/>
+                <field name="quiz_score" />
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
