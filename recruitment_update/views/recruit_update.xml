@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+
+        <record id="Recruitment_tree_view" model="ir.ui.view">
+            <field name="name">recruit.update.tree</field>
+            <field name="model">recruit.update</field>
+            <field name="arch" type="xml">
+                <tree string="Recruitment list" multi_edit="1">
+                    <field name="department_id" optional="show"/>
+                    <field name="job_id" optional="show"/>
+                    <field name="no_employees" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="Recruitment_form_view" model="ir.ui.view">
+            <field name="name">recruit.update.form</field>
+            <field name="model">recruit.update</field>
+            <field name="arch" type="xml">
+                <form string="Recruitment form.">
+                        <header>
+                        <button string="Approve Recruitment(Dept)" name="button_dept" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Approve Recruitment(HR)" name="button_hr" states="dept" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Approve Recruitment(GM)" name="button_done" states="hr" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Set To Draft" name="button_draft" states="cancel,done" type="object" groups="base.group_user"/>
+                        <button string="Cancel Recruitment" name="button_cancel" states="draft,dept,hr" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,dept,hr,done"/>
+                        </header>
+                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Recruitment Reference" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="department_id" />
+                            <field name="job_id"/>
+                            <field name="scheduled"/>
+                            <field name="vaccants"/>
+                            <field name="no_of_recruitment" string="Active Recruitment"/>
+                            <field name="education"/>
+                            <field name="experience"/>
+                        </group>
+
+                         <group>
+                            <field name="date_required"/>
+                            <field name="no_employees"/>
+                            <field name="gender" />
+                            <field name="age"/>
+                            <field name="additional"/>
+                            <field name="replacement"/>
+                            <field name="recruitment_reason"/>
+                        </group>
+
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <record id="Recruitment_action" model="ir.actions.act_window">
+            <field name="name">Recruitment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">recruit.update</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Recruitment <br/>
+              </p><p>
+                This form helps manage  Recruitment.
+              </p>
+            </field>
+        </record>
+
+
+
+
+
+        <menuitem action="Recruitment_action"
+            id="menu_Recruitment_update_action"
+            name="Recruitment request"
+            sequence="1"
+            web_icon="recruitment_update,static/src/img/icon.png" />
+    </data>
+</odoo>
