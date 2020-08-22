@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="employee_request_tree_view" model="ir.ui.view">
+            <field name="name">hr.employee.request.tree</field>
+            <field name="model">hr.employee.request</field>
+            <field name="arch" type="xml">
+                <tree string="Work Injury list" multi_edit="1">
+                    <field name="employee_id" optional="show"/>
+                    <field name="request" optional="show"/>
+                    <field name="request_status" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_request_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.request.form</field>
+            <field name="model">hr.employee.request</field>
+            <field name="arch" type="xml">
+                <form string="Employee Request form.">
+                        <header>
+                        <button string="Supervisor. Approved" name="button_dept" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Dept. Approved" name="button_hr" states="dept" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="HR Notified" name="button_done" states="hr" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="DG Approved" name="button_done" states="confirm" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Set To Draft" name="button_draft" states="cancel,done" type="object" groups="base.group_user"/>
+                        <button string="Cancel Injury Report" name="button_cancel" states="draft,confirm" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,dept,hr,confirm,done"/>
+                        </header>
+                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Employee Request" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="department_id" />
+                            <field name="job_id"/>
+                            <field name="request"/>
+                            <field name="requested_date"/>
+                        </group>
+
+                         <group>
+                            <field name="receiving_employee" />
+                             <field name="request_status" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                             <field name="response_given" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_request_action" model="ir.actions.act_window">
+            <field name="name">Employee Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Employee Request <br/>
+              </p><p>
+                This form helps manage Employee Requests.
+              </p>
+            </field>
+        </record>
+
+
+        <menuitem action="employee_request_action"
+            id="menu_employee_request_action"
+            name="Employee Request"
+            web_icon="work_injury,static/src/img/request.png"
+            sequence="2"/>
+    </data>
+</odoo>

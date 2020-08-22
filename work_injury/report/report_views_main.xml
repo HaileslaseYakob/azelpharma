@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <report
+            string="Insurance Claim Report"
+            id="action_report_insurance"
+            model="disciplinary.action"
+            name="hr_discipinary_tracking.report_discipline"
+            file="hr_discipinary_tracking.report_discipline"
+            report_type="qweb-pdf"
+         />
+
+    </data>
+</odoo>

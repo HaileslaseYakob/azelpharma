@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Manufacturing Order -->
+        <record id="fhr_canteen_tree_view" model="ir.ui.view">
+            <field name="name">hr.canteen.tree</field>
+            <field name="model">hr.canteen</field>
+            <field name="arch" type="xml">
+                <tree string="Canteen users list" multi_edit="1">
+                    <field name="name"/>
+                     <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="fhr_canteen_form_view" model="ir.ui.view">
+            <field name="name">hr.canteen.form</field>
+            <field name="model">hr.canteen</field>
+            <field name="arch" type="xml">
+                <form string="Canteen form.">
+                        <header>
+                        <button name="list_summary" string="List Consumption " type="object" groups="base.group_user"/>
+                        </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Canteen Reference" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+
+                        </group>
+                    </group>
+
+                    <notebook>
+
+
+                        <page string="Canteen users">
+                                 <field name="canteen_detail" >
+                                    <tree  editable="bottom">
+                                        <field name="employee_id" />
+                                        <field name="canteen_date" />
+                                        <field name="price" string="Price" sum="Grand Total"/>
+                                     </tree>
+                                 </field>
+                        </page>
+
+                        <page string="Canteen users summary">
+                                 <field name="canteen_summary" >
+                                    <tree  editable="bottom">
+                                        <field name="employee_id" />
+                                        <field name="price" string="Price" sum="Grand Total"/>
+                                     </tree>
+                                 </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="fhr_canteen_action" model="ir.actions.act_window">
+            <field name="name">Canteen </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.canteen</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Canteen <br/>
+              </p><p>
+                This form helps manage Canteen .
+              </p>
+            </field>
+        </record>
+
+  
+        <menuitem action="fhr_canteen_action"
+            id="menu_fhr_canteen_action"
+            name="Canteen"
+            web_icon="work_injury,static/src/img/canteen.png"
+            sequence="1"/>
+
+
+    </data>
+</odoo>
+

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="Work_Injury_tree_view" model="ir.ui.view">
+            <field name="name">work.injury.tree</field>
+            <field name="model">work.injury</field>
+            <field name="arch" type="xml">
+                <tree string="Work Injury list" multi_edit="1">
+                    <field name="employee_id" optional="show"/>
+                    <field name="date_injury" optional="show"/>
+                    <field name="location" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="clinic_tree_view" model="ir.ui.view">
+            <field name="name">work.injury.clinic.report.tree</field>
+            <field name="model">work.injury.clinic.report</field>
+            <field name="arch" type="xml">
+                <tree string="Work Injury list" multi_edit="1">
+                    <field name="employee_id" optional="show"/>
+                    <field name="date_sent" optional="show"/>
+                    <field name="remark" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="Work_Injury_form_view" model="ir.ui.view">
+            <field name="name">work.injury.form</field>
+            <field name="model">work.injury</field>
+            <field name="arch" type="xml">
+                <form string="Work Injury form.">
+                        <header>
+                        <button string="Supervisor. Approved" name="button_dept" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Dept. Approved" name="button_hr" states="dept" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="HR Notified" name="button_confirm" states="hr" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="DG Approved" name="button_done" states="confirm" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Set To Draft" name="button_draft" states="cancel,done" type="object" groups="base.group_user"/>
+                        <button string="Cancel Injury Report" name="button_cancel" states="draft,confirm" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,dept,hr,confirm,done"/>
+                        </header>
+                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Work Injury Reference" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="department_id" />
+                            <field name="job_id"/>
+                            <field name="location"/>
+                            <field name="date_injury"/>
+                        </group>
+
+                         <group>
+                            <field name="supervisor_name" />
+                            <field name="date_hr_notified"/>
+                        </group>
+ <field name="description"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="clinic_form_view" model="ir.ui.view">
+            <field name="name">work.injury.clinic.report.form</field>
+            <field name="model">work.injury.clinic.report</field>
+            <field name="arch" type="xml">
+                <form string="Clinic report form.">
+                        <header>
+                        <button string="Supervisor. Approved" name="button_dept" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Dept. Approved" name="button_hr" states="dept" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="HR Notified" name="button_confirm" states="hr" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="DG Approved" name="button_done" states="confirm" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Set To Draft" name="button_draft" states="cancel,done" type="object" groups="base.group_user"/>
+                        <button string="Cancel Injury Report" name="button_cancel" states="draft,confirm" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,dept,hr,confirm,done"/>
+                        </header>
+                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Clinic Reference" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="department_id" />
+                            <field name="job_id"/>
+                            <field name="remark"/>
+                            <field name="date_sent"/>
+                        </group>
+
+                         <group>
+                            <field name="clinic_id" />
+                            <field name="supervisor_name" />
+                        </group>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="Work_Injury_action" model="ir.actions.act_window">
+            <field name="name">Work Injury</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">work.injury</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Work Injury <br/>
+              </p><p>
+                This form helps manage  Work Injury.
+              </p>
+            </field>
+        </record>
+
+
+        <record id="clinic_action" model="ir.actions.act_window">
+            <field name="name">Clinic Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">work.injury.clinic.report</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new clinic report <br/>
+              </p><p>
+                This form helps manage clinic reports.
+              </p>
+            </field>
+        </record>
+
+
+        <menuitem action="Work_Injury_action"
+            id="menu_Work_Injury_update_action"
+            name="Work Injury"
+            web_icon="work_injury,static/src/img/icon.png"
+            sequence="1"/>
+
+        <menuitem action="clinic_action"
+            id="menu_clinic_action"
+            name="Clinic Report"
+            web_icon="work_injury,static/src/img/clinic.png"
+            sequence="2"/>
+    </data>
+</odoo>
