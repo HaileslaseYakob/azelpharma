@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="hr_expense_inherit_form_view">
+
+            <field name="name">hr.expense.form.view</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                 <field name="employee_id" position="after">
+                    <field name="suspense_id"/>
+                </field>
+
+            </field>
+        </record>
+
+
+        <record id="suspense_tree_view" model="ir.ui.view">
+            <field name="name">hr.suspense.tree</field>
+            <field name="model">hr.suspense</field>
+            <field name="arch" type="xml">
+                <tree string="Suspense list" multi_edit="1">
+                    <field name="name"/>
+                     <field name="employee_id" optional="show"/>
+                    <field name="required_for" optional="show"/>
+                    <field name="amount" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="suspense_form_view" model="ir.ui.view">
+            <field name="name">hr.suspense.form</field>
+            <field name="model">hr.suspense</field>
+            <field name="arch" type="xml">
+                <form string="Suspense form.">
+                        <header>
+                        <button string="Approve Suspense(Dept)" name="button_dept" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Approve Suspense(HR)" name="button_hr" states="dept" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Confirm Suspense" name="button_confirm" states="hr" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Validate Suspense" name="button_done" states="confirm" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Set To Draft" name="button_draft" states="cancel,done" type="object" groups="base.group_user"/>
+                        <button string="Cancel Suspense" name="button_cancel" states="draft,confirm" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,dept,hr,confirm,done"/>
+                        </header>
+                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Suspense Reference" nolabel="1"/></h1>
+
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="required_for"/>
+                            <field name="amount"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Reconcilled expenses">
+                            <field name="expense_id" >
+
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <record id="suspense_action" model="ir.actions.act_window">
+            <field name="name">Suspense</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.suspense</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new suspense <br/>
+              </p><p>
+                This form helps manage suspese and expnses related to the suspense.
+              </p>
+            </field>
+        </record>
+
+
+
+
+
+        <menuitem action="suspense_action"
+            id="menu_suspense_action"
+            name="Suspense"
+            parent="hr_expense.menu_hr_expense_root"
+            sequence="1"/>
+    </data>
+</odoo>

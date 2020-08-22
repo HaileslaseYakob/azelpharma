@@ -1,0 +1,14 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_hr_employee_family_employee","hr.employee.family_employee","model_hr_employee_family","base.group_user",1,1,1,1
+"access_hr_employee_family_manager","hr.employee.family_manager","model_hr_employee_family","hr.group_hr_manager",1,1,1,1
+"access_hr_employee_family_user","hr.employee.family_user","model_hr_employee_family","hr.group_hr_user",1,1,1,1
+access_hr_employee_relation,access_access_hr_employee_relation,hr_employee_updation.model_hr_employee_relation,base.group_user,1,1,1,1
+access_hr_employee_emergency,access_access_hr_employee_emergency,hr_employee_updation.model_hr_employee_emergency,base.group_user,1,1,1,1
+access_hr_employee_zone,access_access_hr_employee_zone,hr_employee_updation.model_hr_employee_zone,base.group_user,1,1,1,1
+access_hr_employee_subzone,access_access_hr_employee_subzone,hr_employee_updation.model_hr_employee_subzone,base.group_user,1,1,1,1
+access_hr_employee_village,access_access_hr_employee_village,hr_employee_updation.model_hr_employee_village,base.group_user,1,1,1,1
+access_hr_department_section,access_access_hr_department_section,hr_employee_updation.model_hr_department_section,base.group_user,1,1,1,1
+access_hr_employee_round,access_access_hr_employee_round,hr_employee_updation.model_hr_employee_round,base.group_user,1,1,1,1
+access_hr_grade,access_access_hr_grade,hr_employee_updation.model_hr_grade,base.group_user,1,1,1,1
+access_hr_grade_levels,access_access_hr_grade_levels,hr_employee_updation.model_hr_grade_levels,base.group_user,1,1,1,1
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="hr_event_inherit_form_view">
+
+            <field name="name">event.event.form.view</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.view_event_form"/>
+            <field name="arch" type="xml">
+               <field name="is_online" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="organizer_id" position="before">
+                    <field name="department_id"/>
+                </field>
+                 <field name="website_menu" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                <field name="twitter_hashtag" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                <field name="auto_confirm" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+                
+                <field name="website_id" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="seats_min" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="seats_availability" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="date_tz" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="seats_availability" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </field>
+
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
