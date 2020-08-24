@@ -1,5 +1,9 @@
+import logging
 import pandas as pd
 from odoo import fields, models,api
+
+_logger = logging.getLogger(__name__)
+
 class ProductPackaging(models.Model):
     _name = 'mrp.packaging'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -188,6 +192,7 @@ class SalesforecastProducts(models.Model):
                 self.bom_id = False
                 self.product_uom_id = self.product_id.uom_id.id
             self.packaging_id = False
+            _logger.info('FYI: '+self.product_id.id)
             domain = {'packaging_id': [('product_id', '=', self.product_id.id)]}
             return {'domain': domain}
             #return {'domain': {'product_uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}}
