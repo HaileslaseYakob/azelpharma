@@ -232,7 +232,7 @@ class SalesforecastProducts(models.Model):
         help="Bill of Materials allow you to define the list of required components to make a finished product.")
 
     pack_bom_id = fields.Many2one(
-        'mrp.bom', 'Bill of Material',store=True,
+        'mrp.bom', 'Packaging Bill of Material',store=True,
         help="Bill of Materials allow you to define the list of required components to make a finished product.")
 
     salesforecast_product_items_id = fields.One2many('forecast.salesforecastproductsitems', 'salesforcast_product_id',
