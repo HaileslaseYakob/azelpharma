@@ -196,7 +196,7 @@ class SalesforecastProducts(models.Model):
             #domain = {'packaging_id': [('product_id', '=', self.product_id.id)]}
             #domain="[('bom_ids', '!=', False),('sale_ok', '!=', True), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal')]"
             #return {'domain': domain}
-            return {'domain': {'packaging_id': [('product_id', '!=', False)]}}
+            return {'domain': {'packaging_id': [('product_id', '=', self.product_id.id)]}}
 
     salesforecast_id = fields.Many2one(
         'forecast.salesforecast', 'Salesforecast', store=True)
