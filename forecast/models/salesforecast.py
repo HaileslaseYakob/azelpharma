@@ -192,7 +192,7 @@ class SalesforecastProducts(models.Model):
                 self.bom_id = False
                 self.product_uom_id = self.product_id.uom_id.id
             self.packaging_id = False
-            _logger.info('FYI: '+self.product_id.id)
+            _logger.info('FYI: '+str(self.product_id.id))
             domain = {'packaging_id': [('product_id', '=', self.product_id.id)]}
             return {'domain': domain}
             #return {'domain': {'product_uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}}
