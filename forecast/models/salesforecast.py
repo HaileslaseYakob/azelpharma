@@ -29,7 +29,7 @@ class InheritProduct(models.Model):
     _inherit = 'mrp.bom.line'
 
     bom_category=fields.Many2one(
-    'bom.category','BOM Category')
+    'bom.category','Production Stage')
 
 
 class Salesforecast(models.Model):
@@ -311,6 +311,7 @@ class SalesforecastProductItems(models.Model):
 
     item_id = fields.Many2one(
         'product.product', 'Item Name')
+
 
     item_qty = fields.Float(
         'Required Quantity',
