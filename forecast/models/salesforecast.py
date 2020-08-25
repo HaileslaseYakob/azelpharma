@@ -264,7 +264,7 @@ class SalesforecastProductsItems(models.Model):
         'product.product', 'Item Name')
     product_id = fields.Many2one(
         'product.product', 'Product')
-    bom_category=fields.Many2one('bom.category')
+    bom_category=fields.Many2one('bom.category','Production Stage')
     item_qty = fields.Float(
         'Required Quantity',
         default=1.0, digits='Product Unit of Measure',
