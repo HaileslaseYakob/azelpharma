@@ -68,7 +68,7 @@
         parent="stock.menu_stock_inventory_control" sequence="1"/>
 
 
-             <record id="packaging_product_template_action_product" model="ir.actions.act_window">
+    <record id="packaging_product_template_action_product" model="ir.actions.act_window">
         <field name="name">Packaging</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.template</field>
@@ -85,6 +85,36 @@
             <menuitem id="menu_product_packaging_config_stock" name="Packaging" action="packaging_product_template_action_product"
         parent="stock.menu_stock_inventory_control" sequence="1"/>
 
+            <record id="classification_form_view" model="ir.ui.view">
+        <field name="name">product.classification.form</field>
+        <field name="model">product.classification</field>
+      <field name="arch" type="xml">
+                <form string="Sales Forecast form.">
+
+                <sheet>
+
+                        <group>
+                            <field name="name"/>
+                        </group>
+                </sheet>
+                </form>
+            </field>
+    </record>
+
+        <record id="action_product_classification" model="ir.actions.act_window">
+        <field name="name">Product Classification</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.classification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Packaging
+            </p>
+        </field>
+    </record>
+
+             <menuitem id="menu_product_packaging_coonfig_stock" name="Classification" action="action_product_classification"
+        parent="stock.menu_stock_inventory_control" sequence="1"/>
 
     </data>
 </odoo>
