@@ -1,9 +1,5 @@
-import logging
 import pandas as pd
 from odoo import fields, models,api
-
-_logger = logging.getLogger(__name__)
-
 class ProductPackaging(models.Model):
     _name = 'mrp.packaging'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -24,6 +20,16 @@ class InheritProduct(models.Model):
 
     productPackagingID=fields.One2many(
     'mrp.packaging','product_packaging_id')
+
+class BomCategory(models.Model):
+    _name = 'bom.category'
+    name = fields.Char('Name')
+
+class InheritProduct(models.Model):
+    _inherit = 'mrp.bom.line'
+
+    bom_category=fields.Many2one(
+    'bom.category','BOM Category')
 
 
 class Salesforecast(models.Model):
@@ -46,6 +52,7 @@ class Salesforecast(models.Model):
                     'product_id': re.product_id.id,
                     'item_qty': bo.product_qty * re.product_batch_size,
                     'item_available': bo.product_id.qty_available,
+                    'bom_category': bo.bom_category.id,
                     'item_unit_price': bo.product_id.standard_price,
                     'item_required': abs(bo.product_id.qty_available-( bo.product_qty * re.product_batch_size)),
                     'item_total': abs(bo.product_id.qty_available-( bo.product_qty * re.product_batch_size))*bo.product_id.standard_price}
@@ -63,6 +70,7 @@ class Salesforecast(models.Model):
                     'product_id': re.product_id.id,
                     'item_qty': bo.product_qty * re.product_batch_size,
                     'item_available': bo.product_id.qty_available,
+                    'bom_category': bo.bom_category.id,
                     'item_unit_price': bo.product_id.standard_price,
                     'item_required': abs(bo.product_id.qty_available - (bo.product_qty * re.product_batch_size)),
                     'item_total': abs(bo.product_id.qty_available - (
@@ -194,6 +202,7 @@ class SalesforecastProducts(models.Model):
             self.packaging_id = False
             domain = {'packaging_id': [('product_id', '=', self.product_id.product_tmpl_id.id)]}
             return {'domain': domain}
+            #return {'domain': {'product_uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}}
 
     salesforecast_id = fields.Many2one(
         'forecast.salesforecast', 'Salesforecast', store=True)
@@ -230,7 +239,7 @@ class SalesforecastProducts(models.Model):
         help="Bill of Materials allow you to define the list of required components to make a finished product.")
 
     pack_bom_id = fields.Many2one(
-        'mrp.bom', 'Packaging Bill of Material',store=True,
+        'mrp.bom', 'Bill of Material',store=True,
         help="Bill of Materials allow you to define the list of required components to make a finished product.")
 
     salesforecast_product_items_id = fields.One2many('forecast.salesforecastproductsitems', 'salesforcast_product_id',
@@ -255,6 +264,7 @@ class SalesforecastProductsItems(models.Model):
         'product.product', 'Item Name')
     product_id = fields.Many2one(
         'product.product', 'Product')
+    bom_category=fields.Many2one('bom.category')
     item_qty = fields.Float(
         'Required Quantity',
         default=1.0, digits='Product Unit of Measure',

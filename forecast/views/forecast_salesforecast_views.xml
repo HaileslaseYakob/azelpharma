@@ -34,7 +34,17 @@
         </field>
     </record>
 
+ <record id="view_mrp_bom_inherit_form_view" model="ir.ui.view">
+        <field name="name">mrp.bom.inherit.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="before">
+                 <field name="bom_category"/>
+            </xpath>
 
+        </field>
+    </record>
 
         <record id="forecast_salesforecast_form_view" model="ir.ui.view">
             <field name="name">forecast.salesforecast.form</field>
@@ -83,6 +93,7 @@
                                     <tree  editable="bottom" limit="500">
                                         <field name="product_id"/>
                                         <field name="item_id"/>
+                                        <field name="bom_category"/>
                                         <field name="item_qty" string="Required Qty"/>
                                         <field name="item_available"  string="Available Qty"/>
                                         <field name="item_required"  string="Shortage"/>

@@ -4,3 +4,4 @@ access_salesforecast_products,access.salesforecast.products,forecast.model_forec
 access_salesforecast_items,access.salesforecast.items,forecast.model_forecast_salesforecastproductsitems,,1,1,1,1
 access_salesforecast_itemsgrouped,access.salesforecast.itemsgrouped,forecast.model_forecast_salesforecastitemsgrouped,,1,1,1,1
 access_mrp_packaging,access.mrp.packaging,forecast.model_mrp_packaging,,1,1,1,1
+access_bom_category,access.bom.category,forecast.model_bom_category,,1,1,1,1
