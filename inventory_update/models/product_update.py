@@ -37,7 +37,7 @@ class SubClassification(models.Model):
 
 
 class ProductUpdate(models.Model):
-    _inherit = 'product.template'
+    _inherit = 'product.product'
 
     shelf_life = fields.Integer("Shelf life")
     dosage_form = fields.Many2one('product.dosageform')
