@@ -5,18 +5,18 @@ class ProductPackaging(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     product_id = fields.Many2one(
-    'product.template', 'Product')
+    'product.product', 'Product')
     qtyOnBlister = fields.Integer('Qty on Blister')
     qtyOnPackage = fields.Integer('Qty on Package')
     product_packaging_id = fields.Many2one(
-    'product.template',"Packaging name",
+    'product.product',"Packaging name",
     domain="[('bom_ids', '!=', False),('sale_ok', '!=', True), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal')]")
 
     name=fields.Char('Name',related='product_packaging_id.name'
                      )
 
 class InheritProduct(models.Model):
-    _inherit = 'product.template'
+    _inherit = 'product.product'
 
     productPackagingID=fields.One2many(
     'mrp.packaging','product_packaging_id')
@@ -29,7 +29,7 @@ class InheritProduct(models.Model):
     _inherit = 'mrp.bom.line'
 
     bom_category=fields.Many2one(
-    'bom.category','Production Stage')
+    'bom.category','BOM Category')
 
 
 class Salesforecast(models.Model):
@@ -200,7 +200,7 @@ class SalesforecastProducts(models.Model):
                 self.bom_id = False
                 self.product_uom_id = self.product_id.uom_id.id
             self.packaging_id = False
-            domain = {'packaging_id': [('product_id', '=', self.product_id.product_tmpl_id.id)]}
+            domain = {'packaging_id': [('product_id', '=', self.product_id.id)]}
             return {'domain': domain}
             #return {'domain': {'product_uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}}
 
@@ -264,7 +264,7 @@ class SalesforecastProductsItems(models.Model):
         'product.product', 'Item Name')
     product_id = fields.Many2one(
         'product.product', 'Product')
-    bom_category=fields.Many2one('bom.category','Production Stage')
+    bom_category=fields.Many2one('bom.category')
     item_qty = fields.Float(
         'Required Quantity',
         default=1.0, digits='Product Unit of Measure',
@@ -311,7 +311,6 @@ class SalesforecastProductItems(models.Model):
 
     item_id = fields.Many2one(
         'product.product', 'Item Name')
-
 
     item_qty = fields.Float(
         'Required Quantity',
