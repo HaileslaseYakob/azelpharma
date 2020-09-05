@@ -11,8 +11,8 @@ class StockProductionLot(models.Model):
     batch_no = fields.Char(string="Batch No ")
     qc_no = fields.Char(string="QC No ")
     name = fields.Char(
-        'Lot/Serial Number', default=lambda self: self.env['ir.sequence'].next_by_code('stock.lot.serial'),
-        required=True, help="Unique Lot/Serial Number",readonly=True)
+        'Lot/Serial Number',
+        required=True, help="Unique Lot/Serial Number")
 
     @api.onchange('batch_no')
     def batch_no_changed(self):
