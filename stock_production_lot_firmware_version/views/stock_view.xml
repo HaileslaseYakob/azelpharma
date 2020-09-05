@@ -9,6 +9,10 @@
             <field name="ref" position="after">
                 <field name="batch_no" />
                 <field name="qc_no" />
+                <field name="manf" />
+                <field name="originc" />
+                <field name="prodDate" />
+                <field name="expDate" />
             </field>
         </field>
     </record>

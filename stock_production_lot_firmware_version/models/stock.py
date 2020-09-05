@@ -9,6 +9,10 @@ class StockProductionLot(models.Model):
 
     firmware_version = fields.Char(string="Firmware Version")
     batch_no = fields.Char(string="Batch No ")
+    manf = fields.Char(string="Manufacturer ")
+    originc = fields.Char(string="Country of Origin ")
+    prodDate = fields.Char(string="Production Date ")
+    expDate = fields.Char(string="Expiry Date")
     qc_no = fields.Char(string="QC No ")
     name = fields.Char(
         'Lot/Serial Number',
