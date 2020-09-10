@@ -1,5 +1,6 @@
 # Copyright (C) 2017 - TODAY, Open Source Integrators
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from datetime import datetime
 
 from odoo import api,fields, models
 
@@ -78,3 +79,12 @@ class QualityCheckUpdate(models.Model):
     remark = fields.Char(string="Remark.")
     quality_tests = fields.One2many('quality.test','quality_check_id')
 
+    def do_pass(self):
+        self.lot_id.qc_no=self.name
+        self.lot_id.name=self.name+"("+self.lot_id.batch_no+")"
+        self.write({'quality_state': 'pass',
+                    'user_id': self.env.user.id,
+                    'control_date': datetime.now()})
+        if self.env.context.get('no_redirect'):
+            return True
+        return self.redirect_after_pass_fail()

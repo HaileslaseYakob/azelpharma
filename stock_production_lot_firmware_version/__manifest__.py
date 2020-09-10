@@ -9,5 +9,9 @@
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "category": "Stock",
     "website": "https://github.com/OCA/product-attribute",
-    "depends": ["stock","quality","quality_control"]
+    "depends": ["stock","quality","quality_control"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/stock_view.xml",
+    ],
 }
