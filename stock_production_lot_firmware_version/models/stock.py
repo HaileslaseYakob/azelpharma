@@ -4,15 +4,29 @@
 from odoo import api,fields, models
 
 
+
+class Manufacturer(models.Model):
+    _name = 'manufacturer'
+
+    name=fields.Char("Name")
+
+class Country(models.Model):
+    _name = 'country'
+
+    name=fields.Char("Name")
+
 class StockProductionLot(models.Model):
     _inherit = "stock.production.lot"
 
     firmware_version = fields.Char(string="Firmware Version")
     batch_no = fields.Char(string="Batch No ")
-    manf = fields.Char(string="Manufacturer ")
-    originc = fields.Char(string="Country of Origin ")
-    prodDate = fields.Char(string="Production Date ")
-    expDate = fields.Char(string="Expiry Date")
+    manf = fields.Many2one('manufacturer',string="Manufacturer ")
+    originc = fields.Many2one('Country',string="Country of Origin ")
+    prodDate = fields.Date(string="Production Date ")
+    expDate = fields.Date(string="Expiry Date")
+    supplier_invoice_no = fields.Char(string="Supplier Invoice No.")
+    priority=fields.Integer(string="Priority.")
+    barrel = fields.Integer(string="No of Barrels.")
     qc_no = fields.Char(string="QC No ")
     name = fields.Char(
         'Lot/Serial Number',
@@ -38,3 +52,29 @@ class StockProductionLot(models.Model):
             self.name=self.batch_no
         elif self.qc_no:
             self.name=self.qc_no
+
+class QualityTestType(models.Model):
+    _name = "quality.test.type"
+
+    code = fields.Char(string="Test code.")
+    name = fields.Char(string="Test Name.")
+    desc = fields.Char(string="Test Description.")
+
+class QualityTestType(models.Model):
+    _name = "quality.test"
+
+    quality_test_type_id = fields.Many2one('quality.test.type')
+    quality_test_name=fields.Char(related='quality_test_type_id.name')
+    quality_test_code= fields.Char(related='quality_test_type_id.code')
+    quality_test_desc = fields.Char(related='quality_test_type_id.desc')
+    result=fields.Char('Result')
+    quality_check_id=fields.Many2one("quality.check")
+
+
+class QualityCheckUpdate(models.Model):
+    _inherit = "quality.check"
+
+    reanalysisDate = fields.Date(string="Reanalysis Date")
+    remark = fields.Char(string="Remark.")
+    quality_tests = fields.One2many('quality.test','quality_check_id')
+

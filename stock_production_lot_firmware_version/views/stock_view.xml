@@ -6,6 +6,7 @@
         <field name="model">stock.production.lot</field>
         <field name="inherit_id" ref="stock.view_production_lot_form" />
         <field name="arch" type="xml">
+
             <field name="ref" position="after">
                 <field name="batch_no" />
                 <field name="qc_no" />
@@ -13,7 +14,32 @@
                 <field name="originc" />
                 <field name="prodDate" />
                 <field name="expDate" />
+                <field name="supplier_invoice_no" />
+                <field name="priority" />
+                <field name="barrel" />
             </field>
         </field>
     </record>
+
+     <record model="ir.ui.view" id="quality_check_view_form_update">
+
+            <field name="name">quality.check.form.view</field>
+            <field name="model">qality.check</field>
+            <field name="inherit_id" ref="quality_control.quality_check_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Notes']" position="after">
+                    <page string="Quality Check" >
+                        <field name="quality_tests">
+                            <tree editable="bottom">
+                                <field name="quality_test_code" readonly="true"/>
+                                <field name="quality_test_name"/>
+                                <field name="quality_test_desc"/>
+                                <field name="result"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
 </odoo>
