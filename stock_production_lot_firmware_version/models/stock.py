@@ -88,3 +88,16 @@ class QualityCheckUpdate(models.Model):
         if self.env.context.get('no_redirect'):
             return True
         return self.redirect_after_pass_fail()
+
+
+    def do_fail(self):
+        self.lot_id.qc_no = self.name
+        self.lot_id.name = self.name + "(" + self.lot_id.batch_no + ")"
+
+        self.write({
+            'quality_state': 'fail',
+            'user_id': self.env.user.id,
+            'control_date': datetime.now()})
+        if self.env.context.get('no_redirect'):
+            return True
+        return self.redirect_after_pass_fail()
