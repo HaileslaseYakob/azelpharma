@@ -1,6 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_manufacturer,manufacturer,model_manufacturer,,1,1,1,1
-access_country,country,model_country,,1,1,1,1
+access_countr,countr,model_countr,,1,1,1,1
 access_quality_test_type,quality_test_type,model_quality_test_type,,1,1,1,1
 access_quality_test,quality_test,model_quality_test,,1,1,1,1
 access_country,quality_test,model_quality_test,,1,1,1,1
