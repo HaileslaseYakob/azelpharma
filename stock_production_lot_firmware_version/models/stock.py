@@ -22,7 +22,7 @@ class StockProductionLot(models.Model):
     firmware_version = fields.Char(string="Firmware Version")
     batch_no = fields.Char(string="Batch No ")
     manf = fields.Many2one('manufacturer',string="Manufacturer ")
-    originc = fields.Many2one('Country',string="Country of Origin ")
+    originc = fields.Many2one('country',string="Country of Origin ")
     prodDate = fields.Date(string="Production Date ")
     expDate = fields.Date(string="Expiry Date")
     supplier_invoice_no = fields.Char(string="Supplier Invoice No.")
