@@ -54,19 +54,28 @@ class StockProductionLot(models.Model):
         elif self.qc_no:
             self.name=self.qc_no
 
+class QualityTestMaster(models.Model):
+    _name = "quality.test.master"
+
+    name = fields.Char(string="Test Name.")
+
 class QualityTestType(models.Model):
     _name = "quality.test.type"
 
-    code = fields.Char(string="Test code.")
-    name = fields.Char(string="Test Name.")
+    name = fields.Char(string="Test code.")
+    quality_test_master_id = fields.Many2one('quality.test.master')
     desc = fields.Char(string="Test Description.")
 
-class QualityTestType(models.Model):
+class QualityTests(models.Model):
     _name = "quality.test"
 
+    @api.onchange('quality_test_master_id')
+    def changeQualityMaster(self):
+        domain = {'quality_test_type_id': [('quality_test_master_id', '=', self.quality_test_master_id.id)]}
+        return {'domain': domain}
+
+    quality_test_master_id = fields.Many2one('quality.test.master')
     quality_test_type_id = fields.Many2one('quality.test.type')
-    quality_test_name=fields.Char(related='quality_test_type_id.name')
-    quality_test_code= fields.Char(related='quality_test_type_id.code')
     quality_test_desc = fields.Char(related='quality_test_type_id.desc')
     result=fields.Char('Result')
     quality_check_id=fields.Many2one("quality.check")
@@ -75,9 +84,63 @@ class QualityTestType(models.Model):
 class QualityCheckUpdate(models.Model):
     _inherit = "quality.check"
 
+    @api.depends('picking_id')
+    def _testthis(self):
+        if self.picking_id:
+            pickinglist = self.env['stock.move.line'].search([
+                ('picking_id', '=', self.picking_id.id)])
+            thelist = []
+            for x in pickinglist:
+                thelist.append(x.lot_id.id)
+            domain = [('id', 'in', thelist)]
+            return domain
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        """ Set the correct label for `unit_amount`, depending on company UoM """
+        result = super(QualityCheckUpdate, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        self._testthis()
+        return result
+
+    @api.model
+    def view_init(self, fields):
+        pickinglist = self.env['stock.move.line'].search([
+            ('picking_id', '=', self.picking_id.id)])
+        thelist = []
+        for x in pickinglist:
+            thelist.append(x.lot_id.id)
+        domain = {'lot_id': [('id', 'in', thelist)]}
+        return {'domain': domain}
+
     reanalysisDate = fields.Date(string="Reanalysis Date")
     remark = fields.Char(string="Remark.")
     quality_tests = fields.One2many('quality.test','quality_check_id')
+    lot_id = fields.Many2one(
+        'stock.production.lot', 'Lot',domain=_testthis)
+    # @api.model
+    # def default_get(self, fields):
+    #     res = super(MrpProductProduce, self).default_get(fields)
+
+    @api.onchange('product_id')
+    def _onchange_pr_id(self):
+        pickinglist = self.env['stock.move.line'].search([
+            ('picking_id', '=', self.picking_id.id)])
+        thelist = []
+        for x in pickinglist:
+            thelist.append(x.lot_id.id)
+        domain = {'lot_id': [('id', 'in', thelist)]}
+        return {'domain': domain}
+
+    @api.onchange('picking_id')
+    def _onchange_pro_id(self):
+        if self.product_id and self.picking_id:
+            pickinglist = self.env['stock.move.line'].search([
+                ('picking_id', '=', self.picking_id.id)])
+            thelist=[]
+            for x in pickinglist:
+                thelist.append(x.lot_id.id)
+            domain = {'lot_id': [('id', 'in', thelist)]}
+            return {'domain': domain}
 
     def do_pass(self):
         self.lot_id.qc_no=self.name
