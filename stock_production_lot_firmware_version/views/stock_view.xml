@@ -31,9 +31,9 @@
                     <page string="Quality Tests" >
                         <field name="quality_tests">
                             <tree editable="bottom">
-                                <field name="quality_test_master_id"/>
-                                <field name="quality_test_type_id" />
-                                <field name="quality_test_desc"/>
+                                <field name="quality_test_master_id" string="Name"/>
+                                <field name="quality_test_type_id" string="Code"/>
+                                <field name="quality_test_desc" string="Description"/>
                                 <field name="result"/>
                             </tree>
                         </field>
