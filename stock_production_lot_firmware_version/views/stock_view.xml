@@ -61,10 +61,10 @@
         </field>
     </record>
 
-        <menuitem id="menu_quality_stock" name="Quality" action="quality_action"
+        <menuitem id="menu_quaity_stock" name="Inven" action="quality_action"
        sequence="1"/>
-    
-                 <record id="quali_action" model="ir.actions.act_window">
+
+             <record id="quali_action" model="ir.actions.act_window">
         <field name="name">inven</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">quality.testtype.inventory</field>
@@ -78,5 +78,4 @@
 
         <menuitem id="menu_quali_stock" name="Invent" action="quali_action"
        sequence="1"/>
-
 </odoo>
