@@ -49,9 +49,22 @@
             </field>
         </record>
 
-   
+         <record id="quality_action" model="ir.actions.act_window">
+        <field name="name">Quality</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">quality.test.type</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Packaging
+            </p>
+        </field>
+    </record>
 
-             <record id="quali_action" model="ir.actions.act_window">
+        <menuitem id="menu_quaity_stock" name="Quality" action="quality_action"
+       sequence="1"/>
+
+        <record id="qualii_action" model="ir.actions.act_window">
         <field name="name">inven</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">quality.testtype.inventory</field>
@@ -63,6 +76,6 @@
         </field>
     </record>
 
-        <menuitem id="menu_quali_stock" name="Invent" action="quali_action"
+        <menuitem id="menuu_quali_stock" name="Inventees" action="qualii_action"
        sequence="1"/>
 </odoo>
