@@ -86,17 +86,17 @@ class QualityTests(models.Model):
     _name = "quality.test"
 
 
-
     @api.onchange('quality_test_master_id')
     def onchange_product_id(self):
-        list_master_ids = self.env['quality.testtype.inventory'].search('product_id', '=',
-                                                                        self._context.get('product_id'))
+        list_master_ids = self.env['quality.testtype.inventory'].search([('product_id', '=',
+                                                                        self._context.get('product_id'))])
         master_list = []
         type_list = []
         for lst in list_master_ids:
             master_list.append(lst.quality_test_master_id)
             type_list.append(lst.quality_test_type_id)
-            return {'domain': {'quality_test_master_id': [('id', 'in', master_list)]}}
+            return {'domain': {'quality_test_master_id': [('id', 'in', master_list)],
+                               'quality_test_type_id': [('id', 'in', type_list)]}}
 
     quality_test_master_id = fields.Many2one('quality.test.master')
     quality_item_id = fields.Many2one('quality.testtype.inventory')
