@@ -85,10 +85,7 @@ class QualityTestInventory(models.Model):
 class QualityTests(models.Model):
     _name = "quality.test"
 
-    @api.onchange('quality_test_master_id')
-    def changeQualityMaster(self):
-        domain = {'quality_test_type_id': [('quality_test_master_id', '=', self.quality_test_master_id.id)]}
-        return {'domain': domain}
+
 
     @api.onchange('quality_test_master_id')
     def onchange_product_id(self):
