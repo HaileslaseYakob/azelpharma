@@ -2,31 +2,32 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from datetime import datetime
 
-from odoo import api,fields, models
-
+from odoo import api, fields, models
 
 
 class Manufacturer(models.Model):
     _name = 'manufacturer'
 
-    name=fields.Char("Name")
+    name = fields.Char("Name")
+
 
 class Countr(models.Model):
     _name = 'countr'
 
-    name=fields.Char("Name")
+    name = fields.Char("Name")
+
 
 class StockProductionLot(models.Model):
     _inherit = "stock.production.lot"
 
     firmware_version = fields.Char(string="Firmware Version")
     batch_no = fields.Char(string="Batch No ")
-    manf = fields.Many2one('manufacturer',string="Manufacturer ")
-    originc = fields.Many2one('countr',string="Country of Origin ")
+    manf = fields.Many2one('manufacturer', string="Manufacturer ")
+    originc = fields.Many2one('countr', string="Country of Origin ")
     prodDate = fields.Date(string="Production Date ")
     expDate = fields.Date(string="Expiry Date")
     supplier_invoice_no = fields.Char(string="Supplier Invoice No.")
-    priority=fields.Integer(string="Priority.")
+    priority = fields.Integer(string="Priority.")
     barrel = fields.Integer(string="No of Barrels.")
     qc_no = fields.Char(string="QC No ")
     name = fields.Char(
@@ -35,29 +36,30 @@ class StockProductionLot(models.Model):
 
     @api.onchange('batch_no')
     def batch_no_changed(self):
-        self.name=""
+        self.name = ""
         if self.batch_no and self.qc_no:
-            self.name=self.qc_no+"("+self.batch_no+")"
-        elif self.batch_no :
-            self.name=self.batch_no
+            self.name = self.qc_no + "(" + self.batch_no + ")"
+        elif self.batch_no:
+            self.name = self.batch_no
         elif self.qc_no:
-            self.name=self.qc_no
-
+            self.name = self.qc_no
 
     @api.onchange('qc_no')
     def qc_no_changed(self):
-        self.name=""
+        self.name = ""
         if self.batch_no and self.qc_no:
-            self.name=self.qc_no+"("+self.batch_no+")"
-        elif self.batch_no :
-            self.name=self.batch_no
+            self.name = self.qc_no + "(" + self.batch_no + ")"
+        elif self.batch_no:
+            self.name = self.batch_no
         elif self.qc_no:
-            self.name=self.qc_no
+            self.name = self.qc_no
+
 
 class QualityTestMaster(models.Model):
     _name = "quality.test.master"
 
     name = fields.Char(string="Test Name.")
+
 
 class QualityTestType(models.Model):
     _name = "quality.test.type"
@@ -65,6 +67,20 @@ class QualityTestType(models.Model):
     name = fields.Char(string="Test code.")
     quality_test_master_id = fields.Many2one('quality.test.master')
     desc = fields.Char(string="Test Description.")
+
+
+class QualityTestInventory(models.Model):
+    _name = "quality.testtype.inventory"
+
+    @api.onchange('quality_test_master_id')
+    def changeQualityMaster(self):
+        domain = {'quality_test_type_id': [('quality_test_master_id', '=', self.quality_test_master_id.id)]}
+        return {'domain': domain}
+
+    quality_test_master_id = fields.Many2one('quality.test.master')
+    quality_test_type_id = fields.Many2one('quality.test.type')
+    product_id = fields.Many2one('product.template')
+
 
 class QualityTests(models.Model):
     _name = "quality.test"
@@ -74,11 +90,24 @@ class QualityTests(models.Model):
         domain = {'quality_test_type_id': [('quality_test_master_id', '=', self.quality_test_master_id.id)]}
         return {'domain': domain}
 
+    @api.onchange('quality_test_master_id')
+    def onchange_product_id(self):
+        list_master_ids = self.env['quality.testtype.inventory'].search('product_id', '=',
+                                                                        self._context.get('product_id'))
+        master_list = []
+        type_list = []
+        for lst in list_master_ids:
+            master_list.append(lst.quality_test_master_id)
+            type_list.append(lst.quality_test_type_id)
+            return {'domain': {'quality_test_master_id': [('id', 'in', master_list)],
+                               'quality_test_type_id': [('id', 'in', type_list)]}}
+
     quality_test_master_id = fields.Many2one('quality.test.master')
+    quality_item_id = fields.Many2one('quality.testtype.inventory')
     quality_test_type_id = fields.Many2one('quality.test.type')
     quality_test_desc = fields.Char(related='quality_test_type_id.desc')
-    result=fields.Char('Result')
-    quality_check_id=fields.Many2one("quality.check")
+    result = fields.Char('Result')
+    quality_check_id = fields.Many2one("quality.check")
 
 
 class QualityCheckUpdate(models.Model):
@@ -98,7 +127,8 @@ class QualityCheckUpdate(models.Model):
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
         """ Set the correct label for `unit_amount`, depending on company UoM """
-        result = super(QualityCheckUpdate, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        result = super(QualityCheckUpdate, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                                 submenu=submenu)
         self._testthis()
         return result
 
@@ -114,9 +144,10 @@ class QualityCheckUpdate(models.Model):
 
     reanalysisDate = fields.Date(string="Reanalysis Date")
     remark = fields.Char(string="Remark.")
-    quality_tests = fields.One2many('quality.test','quality_check_id')
+    quality_tests = fields.One2many('quality.test', 'quality_check_id')
     lot_id = fields.Many2one(
-        'stock.production.lot', 'Lot',domain=_testthis)
+        'stock.production.lot', 'Lot', domain=_testthis)
+
     # @api.model
     # def default_get(self, fields):
     #     res = super(MrpProductProduce, self).default_get(fields)
@@ -136,22 +167,21 @@ class QualityCheckUpdate(models.Model):
         if self.product_id and self.picking_id:
             pickinglist = self.env['stock.move.line'].search([
                 ('picking_id', '=', self.picking_id.id)])
-            thelist=[]
+            thelist = []
             for x in pickinglist:
                 thelist.append(x.lot_id.id)
             domain = {'lot_id': [('id', 'in', thelist)]}
             return {'domain': domain}
 
     def do_pass(self):
-        self.lot_id.qc_no=self.name
-        self.lot_id.name=self.name+"("+self.lot_id.batch_no+")"
+        self.lot_id.qc_no = self.name
+        self.lot_id.name = self.name + "(" + self.lot_id.batch_no + ")"
         self.write({'quality_state': 'pass',
                     'user_id': self.env.user.id,
                     'control_date': datetime.now()})
         if self.env.context.get('no_redirect'):
             return True
         return self.redirect_after_pass_fail()
-
 
     def do_fail(self):
         self.lot_id.qc_no = self.name
