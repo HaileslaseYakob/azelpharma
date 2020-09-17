@@ -61,7 +61,7 @@
         </field>
     </record>
 
-        <menuitem id="menu_quaity_stock" name="Inven" action="quality_action"
+        <menuitem id="menu_quaity_stock" name="Quality" action="quality_action"
        sequence="1"/>
 
              <record id="quali_action" model="ir.actions.act_window">
