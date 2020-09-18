@@ -79,6 +79,7 @@ class QualityTestInventory(models.Model):
 
     quality_test_master_id = fields.Many2one('quality.test.master')
     quality_test_type_id = fields.Many2one('quality.test.type')
+    desc = fields.Char(related='quality_test_type_id.desc')
     product_id = fields.Many2one('product.template')
 
 
