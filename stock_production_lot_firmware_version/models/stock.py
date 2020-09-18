@@ -101,7 +101,7 @@ class QualityTests(models.Model):
                                'quality_test_type_id': [('id', 'in', type_list)]}}
         else:
             return {'domain': {'quality_test_master_id': [('id', 'in', master_list)],
-                               'quality_test_type_id': [('id', 'in', type_list),('quality_test_master_id', '=', self.quality_test_master_id)]}}
+                               'quality_test_type_id': [('id', 'in', type_list)]}}
 
     quality_test_master_id = fields.Many2one('quality.test.master')
     quality_item_id = fields.Many2one('quality.testtype.inventory')
