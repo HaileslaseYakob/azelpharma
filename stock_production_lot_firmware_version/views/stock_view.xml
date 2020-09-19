@@ -45,7 +45,7 @@
                 <field name="lot_id" position="after">
                     <field name="reanalysisDate"/>
                     <field name="remark"/>
-                    <field name="pname"/>
+                    <field name="pname" invisible="1"/>
                 </field>
             </field>
         </record>
