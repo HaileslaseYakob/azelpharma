@@ -65,7 +65,7 @@ class QualityTestType(models.Model):
     _name = "quality.test.type"
 
     name = fields.Char(string="Test code.")
-    quality_test_master_id = fields.Many2one('quality.test.master')
+    quality_test_master_id = fields.Char('Test Name.')
     desc = fields.Char(string="Test Description.")
 
 
@@ -74,11 +74,12 @@ class QualityTestInventory(models.Model):
 
     @api.onchange('quality_test_master_id')
     def changeQualityMaster(self):
-        domain = {'quality_test_type_id': [('quality_test_master_id', '=', self.quality_test_master_id.id)]}
+        domain = {'quality_test_type_id': [('quality_test_master_id', '=', self.quality_test_master_id.name)]}
         return {'domain': domain}
 
-    quality_test_master_id = fields.Many2one('quality.test.master')
+
     quality_test_type_id = fields.Many2one('quality.test.type')
+    quality_test_master_id = fields.Char('Test Name.')
     desc = fields.Char(related='quality_test_type_id.desc')
     product_id = fields.Many2one('product.template')
 
