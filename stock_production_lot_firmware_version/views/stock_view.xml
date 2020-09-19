@@ -78,4 +78,22 @@
 
         <menuitem id="menuu_quali_stock" name="Inventees" action="qualii_action"
        sequence="1"/>
+    
+            <menuitem id="menuu_quali_sto" name="Invent" action="qualii_action"
+       sequence="1"/>
+    
+            <record id="qualii_action" model="ir.actions.act_window">
+        <field name="name">inven</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">quality.test.master</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Packaging
+            </p>
+        </field>
+    </record>
+
+        <menuitem id="menuu_quali_sto" name="Inveees" action="qualii_action"
+       sequence="1"/>
 </odoo>
