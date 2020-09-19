@@ -142,6 +142,7 @@ class QualityCheckUpdate(models.Model):
 
     reanalysisDate = fields.Date(string="Reanalysis Date")
     remark = fields.Char(string="Remark.")
+    pname=fields.Char(related='product_id.name')
     quality_tests = fields.One2many('quality.test', 'quality_check_id')
     lot_id = fields.Many2one(
         'stock.production.lot', 'Lot', domain=_testthis)
