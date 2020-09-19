@@ -49,51 +49,48 @@
             </field>
         </record>
 
-         <record id="quality_action" model="ir.actions.act_window">
-        <field name="name">Quality</field>
+         <record id="quality_test_action" model="ir.actions.act_window">
+        <field name="name">QC Tests</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">quality.test.type</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new Packaging
+                QC Tests
             </p>
         </field>
     </record>
 
-        <menuitem id="menu_quaity_stock" name="Quality" action="quality_action"
+        <menuitem id="menu_quality_test" name="QC Tests" action="quality_test_action"
        sequence="1"/>
 
-        <record id="qualii_action" model="ir.actions.act_window">
-        <field name="name">inven</field>
+        <record id="qc_test_name_action" model="ir.actions.act_window">
+        <field name="name">QC Test Name</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">quality.test.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                QC Test Name
+            </p>
+        </field>
+    </record>
+
+        <menuitem id="menu_qc_test_name" name="QC Test Name" action="qc_test_name_action"
+       sequence="1"/>
+
+            <record id="item_qc_action" model="ir.actions.act_window">
+        <field name="name">QC for Items</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">quality.testtype.inventory</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new Packaging
+                Qc For Items
             </p>
         </field>
     </record>
 
-        <menuitem id="menuu_quali_stock" name="Inventees" action="qualii_action"
-       sequence="1"/>
-    
-            <menuitem id="menuu_quali_sto" name="Invent" action="qualii_action"
-       sequence="1"/>
-    
-            <record id="qualii_action" model="ir.actions.act_window">
-        <field name="name">Inventory Quality Control</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">quality.testtype.inventory</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Inventory relation with Quality Control
-            </p>
-        </field>
-    </record>
-
-        <menuitem id="menuu_quali_sto" name="Inventory Quality Control" action="qualii_action"
+        <menuitem id="menuu_item_qc" name="QC for Items" action="item_qc_action"
        sequence="1"/>
 </odoo>
