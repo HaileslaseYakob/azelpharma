@@ -83,17 +83,17 @@
        sequence="1"/>
     
             <record id="qualii_action" model="ir.actions.act_window">
-        <field name="name">inven</field>
+        <field name="name">Inventory Quality Control</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">quality.test.master</field>
+        <field name="res_model">quality.testtype.inventory</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new Packaging
+                Inventory relation with Quality Control
             </p>
         </field>
     </record>
 
-        <menuitem id="menuu_quali_sto" name="Inveees" action="qualii_action"
+        <menuitem id="menuu_quali_sto" name="Inventory Quality Control" action="qualii_action"
        sequence="1"/>
 </odoo>
