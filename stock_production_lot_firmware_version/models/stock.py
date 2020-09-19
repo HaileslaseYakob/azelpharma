@@ -95,7 +95,7 @@ class QualityTests(models.Model):
             type_list.append(lst.quality_test_type_id.id)
         if self.quality_test_master_id:
             return {'domain': {'quality_test_master_id': [('name', 'in', master_list)],
-                               'quality_test_type_id': [('id', 'in', type_list)]}}
+                               'quality_test_type_id': ['&',('id', 'in', type_list)],('quality_test_master_id', '=', self.quality_test_master_id.name)]}}
         else:
             return {'domain': {'quality_test_master_id': [('name', 'in', master_list)],
                                'quality_test_type_id': [('id', 'in', type_list)]}}
