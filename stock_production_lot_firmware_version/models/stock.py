@@ -83,6 +83,7 @@ class QualityTests(models.Model):
 
     @api.onchange('quality_test_master_id')
     def onchange_product_id(self):
+
         list_master_ids = self.env['quality.testtype.inventory'].search([('product_id', '=',
                                                                           self._context.get('product_id'))])
         master_list = []

@@ -50,6 +50,36 @@
             </field>
         </record>
 
+     <record id="qctesttype_tree_view" model="ir.ui.view">
+            <field name="name">quality.test.type.tree</field>
+            <field name="model">quality.test.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="quality_test_master_id"/>
+                    <field name="name"/>
+                    <field name="desc"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="qctesttype_form_view" model="ir.ui.view">
+            <field name="name">quality.test.type.form</field>
+            <field name="model">quality.test.type</field>
+            <field name="arch" type="xml">
+                <form>
+                  <sheet>
+                        <group>
+                            <field name="quality_test_master_id"/>
+                            <field name="name"/>
+                            <field name="desc"/>
+                        </group>
+
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
          <record id="quality_test_action" model="ir.actions.act_window">
         <field name="name">QC Tests</field>
         <field name="type">ir.actions.act_window</field>
@@ -65,6 +95,7 @@
         <menuitem id="menu_quality_test" name="QC Tests" action="quality_test_action"
        sequence="1"/>
 
+
         <record id="qc_test_name_action" model="ir.actions.act_window">
         <field name="name">QC Test Name</field>
         <field name="type">ir.actions.act_window</field>
@@ -77,8 +108,41 @@
         </field>
     </record>
 
-        <menuitem id="menu_qc_test_name" name="QC Test Name" action="qc_test_name_action"
+    <menuitem id="menu_qc_test_name" name="QC Test Name" action="qc_test_name_action"
        sequence="1"/>
+
+     <record id="qc_inventory_test_tree_view" model="ir.ui.view">
+            <field name="name">quality.testtype.inventory.tree</field>
+            <field name="model">quality.testtype.inventory</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id"/>
+                    <field name="quality_test_master_id"/>
+                    <field name="quality_test_type_id"/>
+                    <field name="desc"/>
+                </tree>
+            </field>
+        </record>
+
+     <record id="qc_inventory_test_form_view" model="ir.ui.view">
+            <field name="name">quality.testtype.inventory.form</field>
+            <field name="model">quality.testtype.inventory</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <group>
+                         <field name="product_id"/>
+                        <field name="quality_test_master_id"/>
+                        <field name="quality_test_type_id"/>
+                        <field name="desc"/>
+                    </group>
+
+                </sheet>
+                </form>
+
+            </field>
+        </record>
+
 
             <record id="item_qc_action" model="ir.actions.act_window">
         <field name="name">QC for Items</field>
