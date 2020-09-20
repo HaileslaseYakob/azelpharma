@@ -72,8 +72,6 @@ class QualityTestType(models.Model):
 class QualityTestInventory(models.Model):
     _name = "quality.testtype.inventory"
 
-
-
     quality_test_type_id = fields.Many2one('quality.test.type')
     quality_test_master_id = fields.Char('Test Name.')
     desc = fields.Char(related='quality_test_type_id.desc')
@@ -83,11 +81,10 @@ class QualityTestInventory(models.Model):
 class QualityTests(models.Model):
     _name = "quality.test"
 
-
     @api.onchange('quality_test_master_id')
     def onchange_product_id(self):
         list_master_ids = self.env['quality.testtype.inventory'].search([('product_id', '=',
-                                                                        self._context.get('product_id'))])
+                                                                          self._context.get('product_id'))])
         master_list = []
         type_list = []
         for lst in list_master_ids:
@@ -95,10 +92,12 @@ class QualityTests(models.Model):
             type_list.append(lst.quality_test_type_id.id)
         if self.quality_test_master_id:
             return {'domain': {'quality_test_master_id': [('name', 'in', master_list)],
-                               'quality_test_type_id': [('id', 'in', type_list)]]}}
+                               'quality_test_type_id': ['&',('id', 'in', type_list),
+                                                        ('quality_test_master_id', '=', self.quality_test_master_id.name)]}}
         else:
             return {'domain': {'quality_test_master_id': [('name', 'in', master_list)],
-                               'quality_test_type_id': [('id', 'in', type_list)]}}
+                               'quality_test_type_id': ['&',('id', 'in', type_list),
+                                                        ('quality_test_master_id', '=', self.quality_test_master_id.name)]}}
 
     quality_test_master_id = fields.Many2one('quality.test.master')
     quality_item_id = fields.Many2one('quality.testtype.inventory')
@@ -142,7 +141,7 @@ class QualityCheckUpdate(models.Model):
 
     reanalysisDate = fields.Date(string="Reanalysis Date")
     remark = fields.Char(string="Remark.")
-    pname=fields.Char(related='product_id.name')
+    pname = fields.Char(related='product_id.name')
     quality_tests = fields.One2many('quality.test', 'quality_check_id')
     lot_id = fields.Many2one(
         'stock.production.lot', 'Lot', domain=_testthis)
