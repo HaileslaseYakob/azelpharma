@@ -139,6 +139,11 @@ class QualityCheckUpdate(models.Model):
         domain = {'lot_id': [('id', 'in', thelist)]}
         return {'domain': domain}
 
+    @api.onchange('product_id')
+    def onchange_produt_id(self):
+        list_bom_items = []
+        list_bom_items.append((5, 0, 0))
+        quality_tests=list_bom_items
     reanalysisDate = fields.Date(string="Reanalysis Date")
     remark = fields.Char(string="Remark.")
     pname = fields.Char(related='product_id.name')
