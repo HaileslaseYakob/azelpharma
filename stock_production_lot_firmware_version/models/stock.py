@@ -141,9 +141,8 @@ class QualityCheckUpdate(models.Model):
 
     @api.onchange('product_id')
     def onchange_produt_id(self):
-        list_bom_items = []
-        list_bom_items.append((5, 0, 0))
-        quality_tests=list_bom_items
+        self.quality_tests=[(5, 0, 0)]
+
     reanalysisDate = fields.Date(string="Reanalysis Date")
     remark = fields.Char(string="Remark.")
     pname = fields.Char(related='product_id.name')
