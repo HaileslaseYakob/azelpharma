@@ -61,20 +61,14 @@ class QualityTestMaster(models.Model):
     name = fields.Char(string="Test Name.")
 
 
-class QualityTestType(models.Model):
-    _name = "quality.test.type"
-
-    name = fields.Char(string="Test code.")
-    quality_test_master_id = fields.Char('Test Name.')
-    desc = fields.Char(string="Test Description.")
 
 
 class QualityTestInventory(models.Model):
     _name = "quality.testtype.inventory"
 
-    quality_test_type_id = fields.Many2one('quality.test.type')
-    quality_test_master_id = fields.Char('Test Name.')
-    desc = fields.Char(related='quality_test_type_id.desc')
+    quality_test_master_id = fields.Many2one('quality.test.master')
+    name = fields.Char('Test Code.')
+    desc = fields.Char(string='Description')
     product_id = fields.Many2one('product.template')
 
 
@@ -87,23 +81,19 @@ class QualityTests(models.Model):
         list_master_ids = self.env['quality.testtype.inventory'].search([('product_id', '=',
                                                                           self._context.get('product_id'))])
         master_list = []
-        type_list = []
         for lst in list_master_ids:
-            master_list.append(lst.quality_test_master_id)
-            type_list.append(lst.quality_test_type_id.id)
+            master_list.append(lst.quality_test_master_id.id)
         if self.quality_test_master_id:
-            return {'domain': {'quality_test_master_id': [('name', 'in', master_list)],
-                               'quality_test_type_id': ['&',('id', 'in', type_list),
-                                                        ('quality_test_master_id', '=', self.quality_test_master_id.name)]}}
+            return {'domain': {'quality_test_master_id': [('id', 'in', master_list)],
+                               'quality_testtype_inventory_id': ['&',('quality_test_master_id', '=', self.quality_test_master_id.id),
+                                                                 ('product_id', '=',self._context.get('product_id'))]}}
         else:
-            return {'domain': {'quality_test_master_id': [('name', 'in', master_list)],
-                               'quality_test_type_id': ['&',('id', 'in', type_list),
-                                                        ('quality_test_master_id', '=', self.quality_test_master_id.name)]}}
+            return {'domain': {'quality_test_master_id': [('id', 'in', master_list)],
+                               'quality_testtype_inventory_id': [('quality_test_master_id', '=', self.quality_test_master_id.id)]}}
 
     quality_test_master_id = fields.Many2one('quality.test.master')
-    quality_item_id = fields.Many2one('quality.testtype.inventory')
-    quality_test_type_id = fields.Many2one('quality.test.type')
-    quality_test_desc = fields.Char(related='quality_test_type_id.desc')
+    quality_testtype_inventory_id = fields.Many2one('quality.testtype.inventory')
+    quality_test_desc = fields.Char(related='quality_testtype_inventory_id.desc')
     result = fields.Char('Result')
     quality_check_id = fields.Many2one("quality.check")
 
@@ -177,8 +167,9 @@ class QualityCheckUpdate(models.Model):
             return {'domain': domain}
 
     def do_pass(self):
-        self.lot_id.qc_no = self.name
-        self.lot_id.name = self.name + "(" + self.lot_id.batch_no + ")"
+        if self.lot_id:
+            self.lot_id.qc_no = self.name
+            self.lot_id.name = self.name + "(" + self.lot_id.batch_no + ")"
         self.write({'quality_state': 'pass',
                     'user_id': self.env.user.id,
                     'control_date': datetime.now()})
@@ -187,8 +178,9 @@ class QualityCheckUpdate(models.Model):
         return self.redirect_after_pass_fail()
 
     def do_fail(self):
-        self.lot_id.qc_no = self.name
-        self.lot_id.name = self.name + "(" + self.lot_id.batch_no + ")"
+        if self.lot_id:
+            self.lot_id.qc_no = self.name
+            self.lot_id.name = self.name + "(" + self.lot_id.batch_no + ")"
 
         self.write({
             'quality_state': 'fail',

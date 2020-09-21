@@ -32,7 +32,7 @@
                         <field name="quality_tests" context="{'product_id':pname}">
                             <tree editable="bottom">
                                 <field name="quality_test_master_id" string="Name" options="{'no_create_edit':True}"/>
-                                <field name="quality_test_type_id" string="Code"/>
+                                <field name="quality_testtype_inventory_id" string="Code"/>
                                 <field name="quality_test_desc" string="Description"/>
                                 <field name="result"/>
                             </tree>
@@ -49,52 +49,6 @@
                 </field>
             </field>
         </record>
-
-     <record id="qctesttype_tree_view" model="ir.ui.view">
-            <field name="name">quality.test.type.tree</field>
-            <field name="model">quality.test.type</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="quality_test_master_id"/>
-                    <field name="name"/>
-                    <field name="desc"/>
-                </tree>
-            </field>
-        </record>
-
-         <record id="qctesttype_form_view" model="ir.ui.view">
-            <field name="name">quality.test.type.form</field>
-            <field name="model">quality.test.type</field>
-            <field name="arch" type="xml">
-                <form>
-                  <sheet>
-                        <group>
-                            <field name="quality_test_master_id"/>
-                            <field name="name"/>
-                            <field name="desc"/>
-                        </group>
-
-                    </sheet>
-                </form>
-
-            </field>
-        </record>
-
-         <record id="quality_test_action" model="ir.actions.act_window">
-        <field name="name">QC Tests</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">quality.test.type</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                QC Tests
-            </p>
-        </field>
-    </record>
-
-        <menuitem id="menu_quality_test" name="QC Tests" action="quality_test_action"
-       sequence="1"/>
-
 
         <record id="qc_test_name_action" model="ir.actions.act_window">
         <field name="name">QC Test Name</field>
@@ -118,7 +72,7 @@
                 <tree>
                     <field name="product_id"/>
                     <field name="quality_test_master_id"/>
-                    <field name="quality_test_type_id"/>
+                    <field name="name"/>
                     <field name="desc"/>
                 </tree>
             </field>
@@ -133,7 +87,7 @@
                     <group>
                          <field name="product_id"/>
                         <field name="quality_test_master_id"/>
-                        <field name="quality_test_type_id"/>
+                        <field name="name"/>
                         <field name="desc"/>
                     </group>
 
