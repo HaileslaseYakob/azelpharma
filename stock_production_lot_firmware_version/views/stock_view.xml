@@ -135,7 +135,7 @@
         <menuitem id="pc_picking" name="Material Withdrwal" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pc" groups="stock.group_stock_manager,stock.group_stock_user"/>
 
 
-                <record id="action_picking_tree_pc" model="ir.actions.act_window">
+                <record id="action_picking_tree_return" model="ir.actions.act_window">
             <field name="name">Material Return</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
