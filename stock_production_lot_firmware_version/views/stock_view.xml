@@ -63,7 +63,7 @@
     </record>
 
     <menuitem id="menu_qc_test_name" name="QC Test Name" action="qc_test_name_action"
-       sequence="1"/>
+       parent="quality_control.menu_quality_root" sequence="1"/>
 
      <record id="qc_inventory_test_tree_view" model="ir.ui.view">
             <field name="name">quality.testtype.inventory.tree</field>
@@ -111,5 +111,27 @@
     </record>
 
         <menuitem id="menuu_item_qc" name="QC for Items" action="item_qc_action"
-       sequence="1"/>
+       parent="quality_control.menu_quality_root" sequence="1"/>
+
+
+
+            <record id="action_picking_tree_pc" model="ir.actions.act_window">
+            <field name="name">Transfers</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[('picking_type_id','=',6)]</field>
+            <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0],'default_picking_type_id':6}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new transfer
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="pc_picking" name="Transfersz" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pc" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
 </odoo>
