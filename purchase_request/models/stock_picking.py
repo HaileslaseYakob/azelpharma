@@ -124,7 +124,7 @@ class ReturnPickingUpdate(models.TransientModel):
         product_return_moves = [(5,)]
         if self.picking_id and (self.picking_id.state != 'done' or self.picking_id.state != 'received'):
 
-            raise UserError(_("You may only return Done pickings."))
+            raise UserError(_("You may only return Done pickingszz."))
         for move in self.picking_id.move_lines:
             if move.state == 'cancel':
                 continue
