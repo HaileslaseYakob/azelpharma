@@ -156,7 +156,7 @@
 
 
          <record id="action_picking_tree_pack" model="ir.actions.act_window">
-            <field name="name">Material Packaging Withdrawal</field>
+            <field name="name"> Packaging Material Withdrawal</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,kanban,form</field>
@@ -172,6 +172,6 @@
             </field>
         </record>
 
-        <menuitem id="material_pack_picking" name="Material Packaging Withdrawal" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pack" groups="stock.group_stock_manager,stock.group_stock_user"/>
+        <menuitem id="material_pack_picking" name=" Packaging Material Withdrawal" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pack" groups="stock.group_stock_manager,stock.group_stock_user"/>
 
 </odoo>
