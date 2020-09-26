@@ -132,7 +132,7 @@
             </field>
         </record>
 
-        <menuitem id="pc_picking" name="Material Withdrwal" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pc" groups="stock.group_stock_manager,stock.group_stock_user"/>
+        <menuitem id="pc_picking" name="Starting/Coating Withdrwal" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pc" groups="stock.group_stock_manager,stock.group_stock_user"/>
 
 
                 <record id="action_picking_tree_return" model="ir.actions.act_window">
@@ -153,5 +153,25 @@
         </record>
 
         <menuitem id="material_return_picking" name="Material Return" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_return" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+
+         <record id="action_picking_tree_pack" model="ir.actions.act_window">
+            <field name="name">Material Packaging Withdrawal</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[('picking_type_id','=',11)]</field>
+            <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0],'default_picking_type_id':11}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new transfer
+                </p><p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="material_pack_picking" name="Material Packaging Withdrawal" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_pack" groups="stock.group_stock_manager,stock.group_stock_user"/>
 
 </odoo>
