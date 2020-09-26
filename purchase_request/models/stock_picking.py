@@ -1,6 +1,7 @@
 # Copyright 2018 ForgeFlow, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0)
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
@@ -122,7 +123,7 @@ class ReturnPickingUpdate(models.TransientModel):
         move_dest_exists = False
         product_return_moves = [(5,)]
         if self.picking_id and (self.picking_id.state != 'done' or self.picking_id.state != 'received'):
-            from odoo.exceptions import UserError
+
             raise UserError(_("You may only return Done pickings."))
         for move in self.picking_id.move_lines:
             if move.state == 'cancel':
