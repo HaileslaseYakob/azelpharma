@@ -25,7 +25,7 @@
                  <button name="button_scrap" type="object" string="Scrap" attrs="{'invisible': ['|', '|', '&amp;', ('picking_type_code', '=', 'incoming'), ('state', '!=', 'done'), '&amp;', ('picking_type_code', '=', 'outgoing'), ('state', '=', 'done'), ('is_locked', '=', False)]}"/>
              </xpath>
              <xpath expr="//button[@name='%(stock.act_stock_return_picking)d']" position='replace'>
-                 <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|', '|',  ('state', '!=', 'done'), ('state', '!=', 'received'), ('is_locked', '=', False)]}" type="action" groups="base.group_user"/>
+                 <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['&amp;', ('state', '!=', 'done'), ('state', '!=', 'received')]}" type="action" groups="base.group_user"/>
              </xpath>
 
 
