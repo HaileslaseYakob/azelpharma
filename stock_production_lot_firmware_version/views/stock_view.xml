@@ -63,7 +63,7 @@
     </record>
 
     <menuitem id="menu_qc_test_name" name="QC Test Name" action="qc_test_name_action"
-       parent="quality_control.menu_quality_root" sequence="1"/>
+       parent="quality_control.menu_quality_root" sequence="9"/>
 
      <record id="qc_inventory_test_tree_view" model="ir.ui.view">
             <field name="name">quality.testtype.inventory.tree</field>
@@ -111,7 +111,7 @@
     </record>
 
         <menuitem id="menuu_item_qc" name="QC for Items" action="item_qc_action"
-       parent="quality_control.menu_quality_root" sequence="1"/>
+       parent="quality_control.menu_quality_root" sequence="8"/>
 
 
 
