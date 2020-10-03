@@ -12,6 +12,10 @@
                     <field name="purchase_request_allocation_ids" />
                 </group>
             </xpath>
+            
+          <xpath expr="//notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="replace">
+                <field name="product_id" domain="['|','|',('classification_id','=',3),('classification_id','=',4),('classification_id','=',5)]" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>
+          </xpath>
             <field name="partner_id" position="after">
                 <field name="picking_code"  invisible="1"/>
             </field>
