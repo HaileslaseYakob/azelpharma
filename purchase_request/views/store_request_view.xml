@@ -89,6 +89,7 @@
 
                             <field
                                 name="origin"
+                                string="Voucher No: "
                                 class="oe_inline"
                                 attrs="{'readonly': [('is_editable','=', False)]}"
                             />

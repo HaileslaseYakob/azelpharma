@@ -57,9 +57,9 @@ class StoreRequest(models.Model):
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True,
                        states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
 
-    origin = fields.Char(string="Source Document")
+    origin = fields.Char(string="Voucher No: ")
     date_start = fields.Date(
-        string="Creation date",
+        string="Requested date",
         help="Date when the user initiated the " "request.",
         default=fields.Date.context_today,
         track_visibility="onchange",
@@ -82,6 +82,8 @@ class StoreRequest(models.Model):
     assigned_to = fields.Many2one(
         comodel_name="res.users",
         string="Approver",
+        invisible=True,
+        default=_get_default_requested_by,
         track_visibility="onchange",
         domain=lambda self: [
             (
@@ -124,12 +126,13 @@ class StoreRequest(models.Model):
     picking_type_id = fields.Many2one(
         comodel_name="stock.picking.type",
         string="Picking Type",
+        readonly=True,
         required=True,
         default=_default_picking_type,
     )
 
-    location_id = fields.Many2one('stock.location', 'Destination Location', required=True, check_company=True)
-    location_src_id = fields.Many2one('stock.location', 'Source Location', check_company=True)
+    location_id = fields.Many2one('stock.location', 'Destination Location',invisible=True, required=True, check_company=True)
+    location_src_id = fields.Many2one('stock.location', 'Source Location',invisible=True,  check_company=True)
     partner_shipping_id = fields.Many2one(
         'res.partner', string='Deliver To: ', readonly=True, required=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)], 'sale': [('readonly', False)]},
