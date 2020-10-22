@@ -1,6 +1,5 @@
 # Copyright 2017 Eficent Business and IT Consulting Services S.L.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from AptUrl.Helpers import _
 
 from odoo import fields, models, api
 from odoo.exceptions import UserError
@@ -238,7 +237,7 @@ class MrpProduction(models.Model):
         self.ensure_one()
         self.post_inventory()
         if self.bom_id.type == 'phantom':
-            raise UserError(_('You cannot produce a MO with a bom kit product.'))
+            raise UserError('You cannot produce a MO with a bom kit product.')
         action = self.env.ref('mrp_production_request.act_mrp_second_product_produce').read()[0]
         return action
 
@@ -246,7 +245,7 @@ class MrpProduction(models.Model):
         self.ensure_one()
         self.post_inventory()
         if self.bom_id.type == 'phantom':
-            raise UserError(_('You cannot produce a MO with a bom kit product.'))
+            raise UserError('You cannot produce a MO with a bom kit product.')
         action = self.env.ref('mrp_production_request.act_mrp_rejected_product_produce').read()[0]
         return action
 
@@ -254,6 +253,6 @@ class MrpProduction(models.Model):
         self.ensure_one()
         self.post_inventory()
         if self.bom_id.type == 'phantom':
-            raise UserError(_('You cannot produce a MO with a bom kit product.'))
+            raise UserError('You cannot produce a MO with a bom kit product.')
         action = self.env.ref('mrp_production_request.act_mrp_purge_product_produce').read()[0]
         return action
