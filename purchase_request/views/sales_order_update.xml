@@ -2,6 +2,19 @@
 <!-- Copyright 2018-2019 ForgeFlow, S.L.
      License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
 <odoo>
+
+    <record model="ir.actions.act_window" id="action_selected_sale_mrp">
+        <field name="name">Production from sales</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.mrp</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('sale_order_id','=',active_id)]</field>
+        <field name="context">{
+            "default_sale_order_id":active_id,
+            }
+        </field>
+    </record>
+
     <record id="sales_order_form_update" model="ir.ui.view">
         <field name="name">sale.order.form</field>
         <field name="model">sale.order</field>
@@ -9,9 +22,180 @@
         <field name="arch" type="xml">
 
                 <field name="date_order" position="after">
-                               <field name="vehicle_transfer_plateno" />
+                    <field name="vehicle_transfer_plateno" />
                 </field>
+
+               <div class="oe_button_box" name="button_box" position="inside">
+                    <button name="%(action_selected_sale_mrp)d" type="action" class="oe_stat_button" icon="fa-list-alt">
+                        <field name="count" widget="statinfo" string="Production Requests"/>
+                    </button>
+                </div>
+
+                <xpath expr="//button[@name='action_confirm']" position="after">
+
+
+
+                        <button name="action_sales_mrp"
+                            class="oe_stat_button"
+                            icon="fa-user"
+                            type="object"
+                            attrs="{'invisible': ['|',('count', '=', 1),('state', '!=', 'sale')]}"
+                            string="Produce products">
+
+                        </button>
+                 </xpath>
 
         </field>
     </record>
+
+    <record id="sale_mrp_form" model="ir.ui.view">
+        <field name="name">sale.mrp.form</field>
+        <field name="model">sale.mrp</field>
+        <field name="arch" type="xml">
+            <form string="Production from sales">
+                <header>
+                    <button
+                        name="button_draft"
+                        states="sales_approved,production_approved,done"
+                        string="Reset"
+                        type="object"
+                    />
+                    <button
+                        name="button_approve_sales"
+                        states="draft"
+                        string="Sales Approved"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="button_approve_production"
+                        states="sales_approved"
+                        string="Production Approved"
+                        type="object"
+                        class="oe_highlight"
+                    />
+
+                    <button
+                        name="button_job_ticket"
+                        states="production_approved"
+                        string="Create Job Tickets"
+                        type="object"/>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,sales_approved,production_approved,done"
+                        statusbar_colors='{"approved":"blue"}'
+                    />
+                </header>
+                <sheet>
+               <div class="oe_button_box" name="button_box" >
+                    <button name="%(mrp_production_request.action_selected_mrp_production_request)d" type="action" class="oe_stat_button" icon="fa-list-alt">
+                        <field name="count" widget="statinfo" string="Production Requests"/>
+                    </button>
+                </div>
+                    <div class="oe_edit_only">
+                        <label for="name" class="oe_inline" />
+                    </div>
+                    <h1>
+
+                        <field
+                            name="name"
+                            class="oe_inline"
+                        />
+                    </h1>
+                    <group>
+                        <group>
+                            <field
+                                name="requested_by" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field
+                                name="assigned_to" attrs="{'readonly': [('state', '!=', 'sales_approved')]}"/>
+                            <field
+                                name="customer_id"/>
+                            <field
+                                name="customer_order"/>
+
+                            <field
+                                name="origin"
+                                string="Voucher No: "
+                                class="oe_inline"/>
+                            <field
+                                name="description"/>
+                        </group>
+                        <group>
+                            <field
+                                name="date_requested" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field
+                                name="date_agreed" attrs="{'readonly': [('state', '!=', 'sales_approved')]}"/>
+
+
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                widget="selection"/>
+
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="line_ids">
+                                <tree  editable="bottom" limit="500">
+                                    <field name="product_id" />
+                                    <field name="raw_material" />
+                                    <field name="specification" />
+                                    <field name="product_qty" />
+                                    <field name="done_qty" />
+                                    <field name="packaging_material" />
+                             </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_mrp_tree" model="ir.ui.view">
+        <field name="name">sale.mrp.tree</field>
+        <field name="model">sale.mrp</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-bf="message_needaction==True"
+                string="Sales to Production">
+                    <field name="message_needaction" invisible="1" />
+                    <field name="name" />
+                    <field name="customer_id" />
+                    <field name="date_requested" />
+                    <field name="date_agreed" />
+                    <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sale_mrp_action">
+        <field name="name">Sales to Production</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.mrp</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Click to start a new order.
+          </p>
+
+        </field>
+    </record>
+
+    <menuitem
+        id="parent_menu_sale_mrp"
+        name="Sales to Production"
+        action="sale_mrp_action"
+        sequence="1"
+    />
+
+
 </odoo>

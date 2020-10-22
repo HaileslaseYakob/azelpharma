@@ -7,6 +7,8 @@ class StockPicking(models.Model):
 
     received_by_id = fields.Many2one('hr.employee', 'Verified By')
     picking_code = fields.Char("The code",related='picking_type_id.sequence_code')
+    production_idz=fields.Char("Production No:")
+    production_batch_no = fields.Char("Batch No:")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'Waiting Another Operation'),
@@ -80,7 +82,10 @@ class StockPicking(models.Model):
         message += "</ul>"
         return message
     def button_received(self):
-        self.received_by_id=self.env.user.employee_ids[:1].id
+        employee = self.env['hr.employee'].search(
+            [('user_id', '=', self.env.user.id)], limit=1)
+
+        self.received_by_id=employee.id
         self.state="received"
         return
     def action_done(self):
@@ -122,9 +127,9 @@ class ReturnPickingUpdate(models.TransientModel):
     def _onchange_picking_id(self):
         move_dest_exists = False
         product_return_moves = [(5,)]
-        if self.picking_id and (self.picking_id.state != 'done' or self.picking_id.state != 'received'):
+        if self.picking_id and self.picking_id.state != 'received':
 
-            raise UserError(_("You may only return Done pickings."))
+            raise UserError(_("You may only return Receivied pickings."))
         for move in self.picking_id.move_lines:
             if move.state == 'cancel':
                 continue
