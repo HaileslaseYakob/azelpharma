@@ -9,7 +9,7 @@
     "materials and/or external services and keep track of such "
     "requirements.",
     "category": "Purchase Management",
-    "depends": ["purchase", "product","sale", "purchase_stock"],
+    "depends": ["purchase", "product","sale", "purchase_stock","mrp_production_request"],
     "data": [
         "security/purchase_request.xml",
         "security/ir.model.access.csv",

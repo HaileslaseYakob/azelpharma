@@ -8,6 +8,13 @@ class StockPicking(models.Model):
     received_by_id = fields.Many2one('hr.employee', 'Verified By')
     picking_code = fields.Char("The code",related='picking_type_id.sequence_code')
     production_idz=fields.Char("Production No:")
+    employee_id=fields.Many2one('hr.employee',"Requested By")
+    department_name=fields.Char("Requesting Department :")
+    section_name = fields.Char("Requesting Section :")
+
+    product_idz=fields.Many2one('product.product',"Product")
+    product_code=fields.Char('Product Code')
+    batch_size=fields.Float("Batch Size")
     production_batch_no = fields.Char("Batch No:")
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -25,7 +32,13 @@ class StockPicking(models.Model):
              " * Ready: The transfer is ready to be processed.\n(a) The shipping policy is \"As soon as possible\": at least one product has been reserved.\n(b) The shipping policy is \"When all products are ready\": all product have been reserved.\n"
              " * Done: The transfer has been processed.\n"
              " * Cancelled: The transfer has been cancelled.")
-
+    @api.onchange('user_id')
+    def userchanged(self):
+        selected_employee = self.env['hr.employee'].search(
+            [('user_id', '=', self.user_id.id)])
+        for x in selected_employee:
+            self.employee_id=x.id
+            self.department_name=x.department_id.name
     @api.depends('move_type', 'move_lines.state', 'move_lines.picking_id')
     def _compute_state(self):
         ''' State of a picking depends on the state of its related stock.move

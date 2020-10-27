@@ -19,18 +19,31 @@
             </xpath>
             <field name="partner_id" position="after">
                 <field name="picking_code"  invisible="1"/>
-                <field name="production_idz"  invisible="0"/>
-                <field name="production_batch_no"  invisible="0"/>
+                <field name="employee_id"  invisible="1"/>
+                <field name="department_name"  invisible="0"/>
+                <field name="section_name"  invisible="0"/>
 
+
+            </field>
+
+
+            <field name="origin" position="after">
+
+                <field name="product_code"  invisible="0"/>
+                <field name="product_idz"  invisible="0"/>
+                <field name="batch_size"  invisible="0"/>
+                <field name="production_batch_no"  invisible="0"/>
+                <field name="production_idz"  invisible="0"/>
             </field>
 
              <xpath expr="//field[@name='state']" position='replace'>
                  <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done" />
              </xpath>
-
+<!--                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
+                                       attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>-->
              <xpath expr="//label[@for='partner_id']" position='replace'>
                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
-                                       attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                                       attrs="{'invisible': 1}"/>
              </xpath>
 
              <xpath expr="//field[@name='scheduled_date']" position='replace'>

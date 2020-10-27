@@ -12,12 +12,17 @@ class SaleOrderUpdate(models.Model):
         count = self.env['sale.mrp'].search_count([('sale_order_id', '=', self.id)])
         self.count = count
 
+    @api.model
+    def _get_default_sale_mrp_name(self):
+        return self.env["ir.sequence"].next_by_code("sale.mrp")
+
     def action_sales_mrp(self):
         values = {
             'customer_id': self.partner_id.id,
             'customer_order': '',
             'sale_order_id': self.id,
             'origin': self.name,
+            'name': self._get_default_sale_mrp_name()
         }
 
         sale_mrp_id = self.env['sale.mrp'].create(values)
@@ -27,7 +32,6 @@ class SaleOrderUpdate(models.Model):
                 'sale_mrp_id': sale_mrp_id.id,
                 'product_qty': line.product_uom_qty,
                 'product_id': line.product_id.id,
-                'raw_material': '',
                 'specification': line.name,
                 'done_qty': 0,
             })
@@ -89,6 +93,7 @@ class SaleMrp(models.Model):
 
     def action_sales_mrp(self):
         values = {
+            'name':self._get_default_name(),
             'customer_id': self.partner_id.id,
             'customer_order': '',
             'origin': self.name,
@@ -100,7 +105,6 @@ class SaleMrp(models.Model):
                 'sale_mrp_id': sale_mrp_id.id,
                 'product_qty': line.product_uom_qty,
                 'product_id': line.product_id.id,
-                'raw_material': '',
                 'specification': '',
                 'done_qty': 0,
             })
@@ -229,7 +233,6 @@ class SaleMrp(models.Model):
 
     sale_mrp_id = fields.Many2one('sale.mrp', "Production from Sales ID")
     product_id = fields.Many2one('product.template',"Product ")
-    raw_material = fields.Char(string="Raw Material")
     specification = fields.Char(string="Specification")
     product_qty = fields.Char(string="Requested Quantity")
     done_qty = fields.Char(string="Done Quantity")
