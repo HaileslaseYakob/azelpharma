@@ -19,13 +19,16 @@
             </xpath>
             <field name="partner_id" position="after">
                 <field name="picking_code"  invisible="1"/>
-                <field name="employee_id"  invisible="1"/>
+                <field name="employee_id"  invisible="0"/>
                 <field name="department_name"  invisible="0"/>
                 <field name="section_name"  invisible="0"/>
 
-
             </field>
 
+
+            <field name="partner_id" position="replace">
+                <field name="partner_id"  invisible="1"/>
+            </field>
 
             <field name="origin" position="after">
 
