@@ -9,8 +9,8 @@ class StockPicking(models.Model):
     picking_code = fields.Char("The code",related='picking_type_id.sequence_code')
     production_idz=fields.Char("Production No:")
     employee_id=fields.Many2one('hr.employee',"Requested By")
-    department_name=fields.Char("Requesting Department :")
-    section_name = fields.Char("Requesting Section :")
+    department_name=fields.Char("Requesting Department",readonly=1)
+    section_name = fields.Char("Requesting Section",readonly=1)
 
     product_idz=fields.Many2one('product.product',"Product")
     product_code=fields.Char('Product Code')
@@ -39,6 +39,13 @@ class StockPicking(models.Model):
         for x in selected_employee:
             self.employee_id=x.id
             self.department_name=x.department_id.name
+            self.section_name = x.section_id.name
+
+
+    @api.onchange('product_id')
+    def productchanged(self):
+        self.product_code = self.product_id.default_code
+
     @api.depends('move_type', 'move_lines.state', 'move_lines.picking_id')
     def _compute_state(self):
         ''' State of a picking depends on the state of its related stock.move
