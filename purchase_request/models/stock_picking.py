@@ -36,6 +36,8 @@ class StockPicking(models.Model):
     def userchanged(self):
         selected_employee = self.env['hr.employee'].search(
             [('user_id', '=', self.user_id.id)])
+        self.department_name =''
+        self.section_name = ''
         for x in selected_employee:
             self.employee_id=x.id
             self.department_name=x.department_id.name
