@@ -38,6 +38,7 @@ class StockPicking(models.Model):
             [('user_id', '=', self.user_id.id)])
         self.department_name =''
         self.section_name = ''
+        self.partner_id=self.user_id.partner_id.id
         for x in selected_employee:
             self.employee_id=x.id
             self.department_name=x.department_id.name
