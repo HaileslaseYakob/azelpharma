@@ -42,9 +42,9 @@ class StockPicking(models.Model):
             self.section_name = x.section_id.name
 
 
-    @api.onchange('product_id')
+    @api.onchange('product_idz')
     def productchanged(self):
-        self.product_code = self.product_id.default_code
+        self.product_code = self.product_idz.default_code
 
     @api.depends('move_type', 'move_lines.state', 'move_lines.picking_id')
     def _compute_state(self):
