@@ -233,8 +233,8 @@
                   groups="hr.group_hr_manager,hr.group_hr_user"/>
 
          <record id="section_tree_view" model="ir.ui.view">
-            <field name="name">hr.section.tree</field>
-            <field name="model">hr.section</field>
+            <field name="name">hr.department.section.tree</field>
+            <field name="model">hr.department.section</field>
             <field name="arch" type="xml">
                 <tree string="Section" multi_edit="1">
                     <field name="department_id" optional="show"/>
@@ -244,8 +244,8 @@
         </record>
 
         <record id="section_form_view" model="ir.ui.view">
-            <field name="name">hr.section.form</field>
-            <field name="model">hr.section</field>
+            <field name="name">hr.department.section.form</field>
+            <field name="model">hr.department.section</field>
             <field name="arch" type="xml">
                 <form string="Section form.">
                  <sheet>
@@ -264,7 +264,7 @@
         <record id="section_action" model="ir.actions.act_window">
             <field name="name">Section</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">hr.section</field>
+            <field name="res_model">hr.department.section</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" eval="False"/>
             <field name="help" type="html">
