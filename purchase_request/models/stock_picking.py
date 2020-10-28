@@ -44,23 +44,24 @@ class StockPicking(models.Model):
             self.department_name=x.department_id.name
             self.section_name = x.section_id.name
 
-    @api.onchange('partner_id')
-    def userchanged(self):
-        user= self.env['res.users'].search(
-            [('partner_id', '=', self.partner_id.id)])
-        userid=0
-        for x in user:
-            userid=x.id
-
-        selected_employee = self.env['hr.employee'].search(
-            [('user_id', '=', userid)])
-        self.department_name =''
-        self.section_name = ''
-        
-        for x in selected_employee:
-            self.employee_id=x.id
-            self.department_name=x.department_id.name
-            self.section_name = x.section_id.name
+    # @api.onchange('partner_id')
+    # def userchanged(self):
+    #     user= self.env['res.users'].search(
+    #         [('partner_id', '=', self.partner_id.id)])
+    #     userid=0
+    #     for x in user:
+    #         userid=x.id
+    #         self.users_id=x.id
+    #
+    #     selected_employee = self.env['hr.employee'].search(
+    #         [('user_id', '=', userid)])
+    #     self.department_name =''
+    #     self.section_name = ''
+    #
+    #     for x in selected_employee:
+    #         self.employee_id=x.id
+    #         self.department_name=x.department_id.name
+    #         self.section_name = x.section_id.name
 
     @api.onchange('product_idz')
     def productchanged(self):
