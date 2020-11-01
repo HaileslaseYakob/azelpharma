@@ -17,6 +17,7 @@ class StockPicking(models.Model):
     batch_size=fields.Float("Batch Size")
     production_batch_no = fields.Char("Batch No:")
     packaging_form_id=fields.Many2one('mrp.packaging',"Packaging Form")
+    request_voucher = fields.Char("Request Voucher")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'Waiting Another Operation'),

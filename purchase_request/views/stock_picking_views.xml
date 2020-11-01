@@ -27,11 +27,12 @@
 
             <field name="origin" position="after">
 
-                <field name="product_code"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
-                <field name="product_idz"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
-                <field name="batch_size"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
-                <field name="production_batch_no"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="product_code"  attrs="{'invisible': ['&amp;',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="product_idz"  attrs="{'invisible': ['&amp;',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="batch_size"  attrs="{'invisible': ['&amp;',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="production_batch_no"  attrs="{'invisible': ['&amp;',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
                 <field name="packaging_form_id" attrs="{'invisible': [('picking_type_id', '!=', 11)]}"  />
+                <field name="request_voucher" attrs="{'invisible': [('picking_type_id', '!=', 12)]}"  />
 
             </field>
 
