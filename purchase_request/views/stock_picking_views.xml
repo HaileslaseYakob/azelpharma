@@ -48,18 +48,25 @@
                                        attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>-->
              <xpath expr="//label[@for='partner_id']" position='replace'>
                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
-                                       attrs="{'invisible': 1}"/>
+                                       attrs="{'invisible': 0}"/>
+             </xpath>
+
+             <xpath expr="//field[@name='picking_type_id']" position='replace'>
+                <field name="picking_type_id" string="Withdrawal Type" />
              </xpath>
 
              <xpath expr="//field[@name='scheduled_date']" position='replace'>
                 <field name="scheduled_date" string="Voucher Date" attrs="{'required': [('id', '!=', False)]}"/>
              </xpath>
-
              <xpath expr="//field[@name='origin']" position='replace'>
                 <field name="origin" string="Voucher no:"/>
              </xpath>
 
+            <field name="partner_id" position="before">
+                <field name="origin" string="Voucher no:"/>
+                <field name="scheduled_date" string="Voucher Date" attrs="{'required': [('id', '!=', False)]}"/>
 
+            </field>
              <xpath expr="//field[@name='picking_type_id']" position='replace'>
                  <field name="picking_type_id" attrs="{'readonly': True}"/>
              </xpath>
