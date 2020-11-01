@@ -61,7 +61,7 @@
 
 
              <field name="picking_type_id" position='replace'>
-                    <field name="picking_type_id" string = 'Withdrawal Type'/>
+                    <field name="picking_type_id" string = 'Withdrawal Type' attrs="{'readonly': True}"/>
              </field>
 
                  <xpath expr="//field[@name='location_id']" position='replace'>
