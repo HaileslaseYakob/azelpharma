@@ -25,51 +25,44 @@
 
             </field>
 
-
-
-
-            <field name="partner_id" position="replace">
-                <field name="partner_id" nolabel="1" invisible="0" />
-            </field>
-
             <field name="origin" position="after">
 
-                <field name="product_code"  invisible="0"/>
-                <field name="product_idz"  invisible="0"/>
-                <field name="batch_size"  invisible="0"/>
-                <field name="production_batch_no"  invisible="0"/>
-                <field name="production_idz"  invisible="1"/>
+                <field name="product_code"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="product_idz"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="batch_size"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="production_batch_no"  attrs="{'invisible': ['|',('picking_type_id', '!=', 6),('picking_type_id', '!=', 11)]}"/>
+                <field name="packaging_form_id" attrs="{'invisible': [('picking_type_id', '!=', 11)]}"  />
+
             </field>
 
              <xpath expr="//field[@name='state']" position='replace'>
                  <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done" />
              </xpath>
+            <field name="origin" position="replace">
+                <field name="origin" invisible="1"/>
+            </field>
+
+            <field name="scheduled_date" position="replace">
+                <field name="scheduled_date" invisible="1"/>
+            </field>
+
+            <xpath expr="//div[@class='o_td_label']" position="before">
+                <field name="origin" string="Voucher no:"/>
+                <field name="scheduled_date" string="Voucher Date" attrs="{'required': [('id', '!=', False)]}"/>
+            </xpath>
 <!--                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
                                        attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>-->
              <xpath expr="//label[@for='partner_id']" position='replace'>
-                 <label for="partner_id" string="Requested By: " style="font-weight:bold;"
+                 <label for="partner_id" string="Requested By " style="font-weight:bold;"
                                        attrs="{'invisible': 0}"/>
              </xpath>
 
-             <xpath expr="//field[@name='picking_type_id']" position='replace'>
-                <field name="picking_type_id" string="Withdrawal Type" />
-             </xpath>
 
-             <xpath expr="//field[@name='scheduled_date']" position='replace'>
-                <field name="scheduled_date" string="Voucher Date" attrs="{'required': [('id', '!=', False)]}"/>
-             </xpath>
-             <xpath expr="//field[@name='origin']" position='replace'>
-                <field name="origin" string="Voucher no:"/>
-             </xpath>
 
-            <field name="partner_id" position="before">
-                <field name="origin" string="Voucher no:"/>
-                <field name="scheduled_date" string="Voucher Date" attrs="{'required': [('id', '!=', False)]}"/>
+             <field name="picking_type_id" position='replace'>
+                    <field name="picking_type_id" string = 'Withdrawal Type'/>
+             </field>
 
-            </field>
-             <xpath expr="//field[@name='picking_type_id']" position='replace'>
-                 <field name="picking_type_id" attrs="{'readonly': True}"/>
-             </xpath>
                  <xpath expr="//field[@name='location_id']" position='replace'>
                  <field name="location_id" string="Source Location" attrs="{'invisible': True}"/>
              </xpath>
