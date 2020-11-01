@@ -12,7 +12,7 @@ class StockPicking(models.Model):
     department_name=fields.Char("Department",readonly=1)
     section_name = fields.Char("Section",readonly=1)
 
-    product_idz=fields.Many2one('product.product',"Product")
+    product_idz=fields.Many2one('product.product',"Product", domain = [("classification_id", "=", 1)])
     product_code=fields.Char('Product Code')
     batch_size=fields.Float("Batch Size")
     production_batch_no = fields.Char("Batch No:")
