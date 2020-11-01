@@ -26,16 +26,10 @@
             </field>
 
 
-             <field name="partner_id" position="before">
-                <field name="picking_code"  invisible="1"/>
-                <field name="employee_id"  invisible="1"/>
-                <field name="department_name"  invisible="0"/>
-                <field name="section_name"  invisible="0"/>
 
-            </field>
 
             <field name="partner_id" position="replace">
-                <field name="partner_id"  invisible="0"/>
+                <field name="partner_id" nolabel="1" invisible="0" />
             </field>
 
             <field name="origin" position="after">
@@ -54,7 +48,7 @@
                                        attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>-->
              <xpath expr="//label[@for='partner_id']" position='replace'>
                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
-                                       attrs="{'invisible': 1}"/>
+                                       attrs="{'invisible': 0}"/>
              </xpath>
 
              <xpath expr="//field[@name='scheduled_date']" position='replace'>

@@ -9,8 +9,8 @@ class StockPicking(models.Model):
     picking_code = fields.Char("The code",related='picking_type_id.sequence_code')
     production_idz=fields.Char("Production No:")
     employee_id=fields.Many2one('hr.employee',"Requested By")
-    department_name=fields.Char("Requesting Department",readonly=1)
-    section_name = fields.Char("Requesting Section",readonly=1)
+    department_name=fields.Char("Department",readonly=1)
+    section_name = fields.Char("Section",readonly=1)
 
     product_idz=fields.Many2one('product.product',"Product")
     product_code=fields.Char('Product Code')
