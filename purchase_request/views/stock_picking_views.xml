@@ -48,7 +48,7 @@
                                        attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>-->
              <xpath expr="//label[@for='partner_id']" position='replace'>
                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
-                                       attrs="{'invisible': 0}"/>
+                                       attrs="{'invisible': 1}"/>
              </xpath>
 
              <xpath expr="//field[@name='scheduled_date']" position='replace'>
