@@ -54,7 +54,7 @@
 <!--                  <label for="partner_id" string="Requested By: " style="font-weight:bold;"
                                        attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>-->
              <xpath expr="//label[@for='partner_id']" position='replace'>
-                 <label for="partner_id" string="Requested Byy " style="font-weight:bold;"
+                 <label for="partner_id" string="Requested By " style="font-weight:bold;"
                                        attrs="{'invisible': 0}"/>
              </xpath>
 
