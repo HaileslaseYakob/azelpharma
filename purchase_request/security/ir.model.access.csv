@@ -19,9 +19,6 @@ access_store_purchase_delivery_place_user,purchase.deliveryplace,model_purchase_
 access_purchase_shippingby,purchase.shippingby,model_purchase_shippingby,,1,1,1,1
 access_purchase_packing,purchase.packing,model_purchase_packing,,1,1,1,1
 access_purchase_portofloading,purchase.portofloading,model_purchase_portofloading,,1,1,1,1
-access_sale_mrp,sale.mrp,model_sale_mrp,,1,1,1,1
-access_sale_mrp_line,sale.mrp.line,model_sale_mrp_line,,1,1,1,1
-
 access_purchase_portofdestination,purchase.portofdestination,model_purchase_portofdestination,,1,1,1,1
 access_store_request_store_user,store.request,model_store_request,,1,1,1,1
 access_purchase_chequepayment,purchase.chequepayment,model_purchase_chequepayment,,1,1,1,1

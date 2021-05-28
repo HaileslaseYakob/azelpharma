@@ -6,18 +6,8 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     received_by_id = fields.Many2one('hr.employee', 'Verified By')
+    product_batch_no = fields.Char("Production Batch No",compute="_compute_batch_no" ,default="0")
     picking_code = fields.Char("The code",related='picking_type_id.sequence_code')
-    production_idz=fields.Char("Production No:")
-    employee_id=fields.Many2one('hr.employee',"Requested By")
-    department_name=fields.Char("Department",readonly=1)
-    section_name = fields.Char("Section",readonly=1)
-
-    product_idz=fields.Many2one('product.product',"Product", domain = [("classification_id", "=", 1)])
-    product_code=fields.Char('Product Code')
-    batch_size=fields.Float("Batch Size")
-    production_batch_no = fields.Char("Batch No:")
-    packaging_form_id=fields.Many2one('mrp.packaging',"Packaging Form")
-    request_voucher = fields.Char("Request Voucher")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'Waiting Another Operation'),
@@ -34,40 +24,6 @@ class StockPicking(models.Model):
              " * Ready: The transfer is ready to be processed.\n(a) The shipping policy is \"As soon as possible\": at least one product has been reserved.\n(b) The shipping policy is \"When all products are ready\": all product have been reserved.\n"
              " * Done: The transfer has been processed.\n"
              " * Cancelled: The transfer has been cancelled.")
-    @api.onchange('user_id')
-    def userchanged(self):
-        selected_employee = self.env['hr.employee'].search(
-            [('user_id', '=', self.user_id.id)])
-        self.department_name =''
-        self.section_name = ''
-        self.partner_id=self.user_id.partner_id.id
-        for x in selected_employee:
-            self.employee_id=x.id
-            self.department_name=x.department_id.name
-            self.section_name = x.section_id.name
-
-    # @api.onchange('partner_id')
-    # def userchanged(self):
-    #     user= self.env['res.users'].search(
-    #         [('partner_id', '=', self.partner_id.id)])
-    #     userid=0
-    #     for x in user:
-    #         userid=x.id
-    #         self.users_id=x.id
-    #
-    #     selected_employee = self.env['hr.employee'].search(
-    #         [('user_id', '=', userid)])
-    #     self.department_name =''
-    #     self.section_name = ''
-    #
-    #     for x in selected_employee:
-    #         self.employee_id=x.id
-    #         self.department_name=x.department_id.name
-    #         self.section_name = x.section_id.name
-
-    @api.onchange('product_idz')
-    def productchanged(self):
-        self.product_code = self.product_idz.default_code
 
     @api.depends('move_type', 'move_lines.state', 'move_lines.picking_id')
     def _compute_state(self):
@@ -99,6 +55,12 @@ class StockPicking(models.Model):
                 else:
                     picking.state = relevant_move_state
 
+    @api.depends('move_type', 'move_lines.state', 'move_lines.picking_id','state')
+    def _compute_batch_no(self):
+        res = self.env['mrp.production'].search([('procurement_group_id','=',self.group_id.id)])
+        for r in res:
+            self.product_batch_no = r.batch_no
+
     store_request_id=fields.Many2one('store.request',"Store request")
     @api.model
     def _purchase_request_picking_confirm_message_content(
@@ -125,10 +87,7 @@ class StockPicking(models.Model):
         message += "</ul>"
         return message
     def button_received(self):
-        employee = self.env['hr.employee'].search(
-            [('user_id', '=', self.env.user.id)], limit=1)
-
-        self.received_by_id=employee.id
+        self.received_by_id=self.env.user.employee_ids[:1].id
         self.state="received"
         return
     def action_done(self):
@@ -170,9 +129,9 @@ class ReturnPickingUpdate(models.TransientModel):
     def _onchange_picking_id(self):
         move_dest_exists = False
         product_return_moves = [(5,)]
-        if self.picking_id and self.picking_id.state != 'received':
+        if self.picking_id and (self.picking_id.state != 'done' or self.picking_id.state != 'received'):
 
-            raise UserError(_("You may only return Receivied pickings."))
+            raise UserError(_("You may only return Done pickings."))
         for move in self.picking_id.move_lines:
             if move.state == 'cancel':
                 continue
