@@ -7,21 +7,7 @@
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view" />
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='button_scrap']"  position="after">
-                <button name="second_produce_product"  string="Second Grade" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('state', '=', 'to_close'),('state', '=', 'draft'), ('is_locked', '=', False),  ('routing_id', '!=', False)]}"/>
-                <button name="rejected_produce_product"  string="Rejected" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('state', '=', 'to_close'),('state', '=', 'draft'), ('is_locked', '=', False),  ('routing_id', '!=', False)]}"/>
-                <button name="purge_produce_product"  string="Purge" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('state', '=', 'to_close'),('state', '=', 'draft'), ('is_locked', '=', False),  ('routing_id', '!=', False)]}"/>
-            </xpath>
-            <xpath expr="//form/sheet/notebook/page[3]/group" position="after">
-                <group>
-                    <field name="mrp_production_request_id" />
-                </group>
-            </xpath>
-            <field name="user_id" position="after">
-                <field name="has_master_batch" />
-                <field name="product_master_batch_id" attrs="{'invisible': [('has_master_batch','=', False)]}" />
-                <field name="master_batch_percentage" attrs="{'invisible': [('has_master_batch','=', False)]}"/>
-            </field>
+
         </field>
     </record>
 
