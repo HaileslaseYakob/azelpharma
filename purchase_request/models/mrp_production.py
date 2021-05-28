@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from datetime import datetime, date
 
-from AptUrl.Helpers import _
 
 from odoo import fields, models, api
 from odoo.exceptions import UserError
