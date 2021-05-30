@@ -5,3 +5,5 @@ access_quality_test_master,quality_test_master,model_quality_test_master,,1,1,1,
 access_quality_testtype_inventory,quality_testtype_inventory,model_quality_testtype_inventory,,1,1,1,1
 access_quality_test,quality_test,model_quality_test,,1,1,1,1
 access_country,quality_test,model_quality_test,,1,1,1,1
+access_country,batch_category,model_batch_category,,1,1,1,1
+

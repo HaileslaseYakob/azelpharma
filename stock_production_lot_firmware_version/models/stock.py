@@ -16,16 +16,29 @@ class Countr(models.Model):
 
     name = fields.Char("Name")
 
+class BatchCategory(models.Model):
+    _name = 'batch.category'
+
+    name = fields.Char("Name")
+    product_id=fields.Many2one("product.product")
 
 class StockProductionLot(models.Model):
     _inherit = "stock.production.lot"
 
     firmware_version = fields.Char(string="Firmware Version")
     batch_no = fields.Char(string="Batch No ")
+
+    batch_category = fields.Many2one('batch.category', string="Brand",domain="[('product_id','=',product_id)]")
+    ref = fields.Char('Code',
+                      help="Internal reference number in case it differs from the manufacturer's lot/serial number")
+    picasso_number=fields.Char("Picasso Number")
+    i_v = fields.Char("Intrinsic Viscosity")
+
     manf = fields.Many2one('manufacturer', string="Manufacturer ")
     originc = fields.Many2one('countr', string="Country of Origin ")
     prodDate = fields.Date(string="Production Date ")
     expDate = fields.Date(string="Expiry Date")
+    reanalysis_date = fields.Date(string="Reanalysis Date")
     supplier_invoice_no = fields.Char(string="Supplier Invoice No.")
     priority = fields.Integer(string="Priority.")
     barrel = fields.Integer(string="No of Barrels.")
@@ -33,6 +46,24 @@ class StockProductionLot(models.Model):
     name = fields.Char(
         'Lot/Serial Number',
         required=True, help="Unique Lot/Serial Number")
+
+    @api.onchange('product_id')
+    def product_changed(self):
+        self.with_context(default_prod_id=self.product_id.id)
+
+
+    @api.onchange('batch_category','ref','i_v')
+    def batch_category_changed(self):
+        self.name = ""
+        if self.batch_category:
+            self.name = self.batch_category.name
+        if self.ref and self.i_v:
+            self.name = self.name + "(" + self.ref + "-" + self.i_v + ")"
+        elif self.i_v:
+            self.name = self.name+ "(" + self.i_v + ")"
+        elif self.ref:
+            self.name = self.name + "(" + self.ref + ")"
+
 
     @api.onchange('batch_no')
     def batch_no_changed(self):
@@ -53,6 +84,20 @@ class StockProductionLot(models.Model):
             self.name = self.batch_no
         elif self.qc_no:
             self.name = self.qc_no
+
+
+    def _domain_product_id(self):
+        domain = [
+            "('tracking', '!=', 'none')",
+            "'|'",
+                "('company_id', '=', False)",
+                "('company_id', '=', company_id)"
+        ]
+        if self.env.context.get('default_product_tmpl_id'):
+            domain.insert(0,
+                ("('product_tmpl_id', '=', %s)" % self.env.context['default_product_tmpl_id'])
+            )
+        return '[' + ', '.join(domain) + ']'
 
 
 class QualityTestMaster(models.Model):
