@@ -37,7 +37,7 @@
         <field name="arch" type="xml">
 
             <field name="ref" position="before">
-                <field name="batch_no" invisible="1"/>
+                <field name="batch_no" invisible="0"/>
 
                 <field name="batch_category" invisible="1"/>
                 <field name="picasso_number" invisible="1"/>
