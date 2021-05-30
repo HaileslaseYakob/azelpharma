@@ -19,5 +19,11 @@ class InheritBom(models.Model):
 
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
-
-    batch_no=fields.Char("Batch no.")
+    @api.model
+    def _get_default_name(self):
+        return self.env["ir.sequence"].next_by_code("mrp.batch")
+    def action_confirm(self):
+        self.batch_no = self._get_default_name()
+        super().action_confirm()
+    batch_no=fields.Char(
+        string="Batch No")

@@ -88,11 +88,7 @@
                     />
                 </header>
                 <sheet>
-               <div class="oe_button_box" name="button_box" >
-                    <button name="%(mrp_production_request.action_selected_mrp_production_request)d" type="action" class="oe_stat_button" icon="fa-list-alt">
-                        <field name="count" widget="statinfo" string="Production Requests"/>
-                    </button>
-                </div>
+
                     <div class="oe_edit_only">
                         <label for="name" class="oe_inline" />
                     </div>
