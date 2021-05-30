@@ -55,7 +55,7 @@
 
 
         <record id="act_mrp_rejected_product_produce" model="ir.actions.act_window">
-            <field name="name">Produce</field>
+            <field name="name">Register Rejected</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">mrp.rejected.product.produce</field>
             <field name="view_mode">form</field>
